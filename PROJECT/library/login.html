@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | My Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background: #0f0c29;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Changed to flex-start to allow more scrolling at top */
+            position: relative;
+            overflow: auto;
+            padding: 30px 12px 12px 12px; /* Increased top padding */
+        }
+
+        /* Animated background */
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Floating shapes - increased size */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 180px;
+            height: 180px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            left: 85%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            top: 85%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .shape:nth-child(5) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 75%;
+            animation-delay: 3s;
+        }
+
+        /* Gradient animation */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(25px, 35px) rotate(90deg);
+            }
+            50% {
+                transform: translate(50px, -25px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-35px, 50px) rotate(270deg);
+            }
+        }
+
+        /* Main container - increased size */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 380px;
+            margin: 30px auto 15px auto; /* Increased top margin */
+        }
+
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            padding: 35px 28px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b, #667eea, #764ba2);
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+        }
+
+        /* Glowing effect */
+        .container:hover {
+            box-shadow: 0 0 25px rgba(102, 126, 234, 0.3),
+                        0 0 45px rgba(118, 75, 162, 0.2);
+        }
+
+        /* Logo section - increased size */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            width: 85px;
+            height: 85px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .logo-icon i {
+            font-size: 42px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-subtext {
+            color: #e0e0ff;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Form styling - increased padding and font sizes */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 18px;
+            z-index: 1;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 16px 16px 16px 45px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #b0b0d0;
+        }
+
+        /* Login button - increased size */
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+            margin-top: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 28px rgba(102, 126, 234, 0.6);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Register link - increased font size */
+        .register-section {
+            text-align: center;
+            margin-top: 25px;
+            color: #e0e0ff;
+            font-size: 15px;
+        }
+
+        .register-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .register-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #764ba2;
+        }
+
+        .register-link:hover::after {
+            width: 100%;
+        }
+
+        /* Notification - increased size */
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            padding: 18px 24px;
+            border-radius: 14px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 1000;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+            max-width: 350px;
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 9px 24px rgba(102, 126, 234, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+            100% {
+                transform: translate(150%, 150%) rotate(45deg);
+            }
+        }
+
+        /* Responsive design - larger sizes */
+        @media (max-width: 768px) {
+            body {
+                padding: 25px 10px 10px 10px; /* Increased top padding */
+            }
+            
+            .main-content {
+                margin: 25px auto 12px auto; /* Increased top margin */
+                max-width: 350px;
+            }
+            
+            .container {
+                padding: 30px 25px;
+            }
+            
+            .logo-icon {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .logo-icon i {
+                font-size: 38px;
+            }
+            
+            .logo-text {
+                font-size: 25px;
+            }
+            
+            .logo-subtext {
+                font-size: 14px;
+            }
+            
+            .form-group input,
+            .form-group select {
+                padding: 14px 14px 14px 40px;
+                font-size: 15px;
+            }
+            
+            .input-with-icon i {
+                font-size: 16px;
+                left: 14px;
+            }
+            
+            .login-btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .notification {
+                right: 20px;
+                left: 20px;
+                max-width: none;
+                top: 20px;
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 8px 8px 8px; /* Increased top padding */
+            }
+            
+            .main-content {
+                margin: 20px auto 10px auto; /* Increased top margin */
+                max-width: 320px;
+            }
+            
+            .container {
+                padding: 28px 22px;
+            }
+            
+            .logo-section {
+                margin-bottom: 25px;
+            }
+            
+            .logo-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .logo-icon i {
+                font-size: 35px;
+            }
+            
+            .logo-text {
+                font-size: 23px;
+            }
+            
+            .notification {
+                top: 15px;
+                padding: 12px 18px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="animated-bg">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Main content wrapper for scrolling -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Logo section -->
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">My Library</div>
+                <div class="logo-subtext">Educational Resource Platform</div>
+            </div>
+
+            <!-- Login form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="student-id">Student ID</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="student-id" placeholder="Enter your student ID" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Academic Year</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                        <select id="year" required>
+                            <option value="">Select your academic year</option>
+                            <option value="1">First Year</option>
+                            <option value="2">Second Year</option>
+                            <option value="3">Third Year</option>
+                            <option value="4">Fourth Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+
+            <div class="register-section">
+                Don't have an account? <a href="register.html" class="register-link">Register now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is already logged in
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                // Redirect to main page
+                window.location.href = 'index.html';
+            }
+
+            // Handle login form submission
+            const loginForm = document.getElementById('login-form');
+            const notification = document.getElementById('notification');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const studentId = document.getElementById('student-id').value;
+                const year = document.getElementById('year').value;
+                const password = document.getElementById('password').value;
+                
+                // Check if Firebase is properly configured
+                if (typeof firebase === 'undefined' || typeof firebaseAuth === 'undefined') {
+                    showNotification('Firebase not properly configured. Please check the setup instructions in FIREBASE_SETUP.md', 'error');
+                    return;
+                }
+                
+                // Firebase authentication
+                firebaseAuth.signInWithEmailAndPassword(studentId + '@mylibrary.com', password)
+                    .then((userCredential) => {
+                        // Signed in
+                        const user = userCredential.user;
+                        
+                        // Fetch user data from Firestore
+                        return firebaseDb.collection('users').doc(user.uid).get();
+                    })
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            
+                            // Update last login time
+                            return firebaseDb.collection('users').doc(doc.id).update({
+                                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                            }).then(() => userData);
+                        } else {
+                            throw new Error('User data not found');
+                        }
+                    })
+                    .then((userData) => {
+                        // Successful login
+                        localStorage.setItem('currentUser', JSON.stringify(userData));
+                        showNotification('Login successful! Redirecting...', 'success');
+                        
+                        // Redirect based on user type
+                        setTimeout(() => {
+                            if (userData.studentId === 'admin') {
+                                window.location.href = 'admin.html';
+                            } else {
+                                window.location.href = 'index.html';
+                            }
+                        }, 1500);
+                    })
+                    .catch((error) => {
+                        // Failed login
+                        console.error('Login error:', error);
+                        if (error.code === 'auth/api-key-not-valid') {
+                            showNotification('Firebase API key not valid. Please check your Firebase configuration in js/firebase-config.js', 'error');
+                        } else {
+                            showNotification('Invalid credentials', 'error');
+                        }
+                    });
+            });
+
+            // Show notification function
+            function showNotification(message, type) {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                // Auto hide after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            // Theme persistence
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+    </script>
+    
+    <!-- Database Scripts -->
+    <script src="database/db.js"></script>
+    <script src="database/courseDb.js"></script>
+    <script src="database/demo.js"></script>
+    <script src="database/utils.js"></script>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-fallback.js"></script>
+</body>
+</html>

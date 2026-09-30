@@ -1,0 +1,32 @@
+body{
+    margin:0;
+    padding:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:black;
+
+}
+.clock-container{
+    background-color: #222;
+    padding: 30px 50px;
+    border-radius:15px;
+
+}
+.time{
+     display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
+}
+#ampm{
+    color:white;
+    font-size:25px;
+    font-family: Arial,sans-serif;
+}
+#clock{
+    color:white;
+    font-size:60px;
+    border-radius:15px;
+    font-family: Arial,sans-serif;
+}

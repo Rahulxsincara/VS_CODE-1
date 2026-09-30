@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplex Method Table</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button i {
+            font-size: 16px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 1px solid #e1e1e1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f1f8ff;
+        }
+        
+        input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .pivot-cell {
+            background-color: #ffeaa7 !important;
+            font-weight: bold;
+        }
+        
+        .entering-variable {
+            background-color: #a5d8ff !important;
+        }
+        
+        .leaving-variable {
+            background-color: #ffadad !important;
+        }
+        
+        .solution {
+            background-color: #d5f5e3;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .solution h3 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .iteration-info {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .instructions {
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .instructions h3 {
+            color: #e67e22;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .iteration-history {
+            margin-top: 30px;
+        }
+        
+        .iteration-table {
+            margin-bottom: 30px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .iteration-header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .iteration-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .iteration-controls button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .variable-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-table"></i> Simplex Method Table</h1>
+        
+        <div class="controls">
+            <button id="addRow"><i class="fas fa-plus"></i> Add Row</button>
+            <button id="addColumn"><i class="fas fa-plus"></i> Add Column</button>
+            <button id="removeRow"><i class="fas fa-minus"></i> Remove Row</button>
+            <button id="removeColumn"><i class="fas fa-minus"></i> Remove Column</button>
+            <button id="calculate"><i class="fas fa-calculator"></i> Calculate Zj & Cj-Zj</button>
+            <button id="nextIteration"><i class="fas fa-forward"></i> Next Iteration</button>
+            <button id="reset"><i class="fas fa-redo"></i> Reset Table</button>
+        </div>
+        
+        <div class="variable-controls">
+            <button id="addX3"><i class="fas fa-plus"></i> Add X3 Column</button>
+            <button id="addS3"><i class="fas fa-plus"></i> Add S3 Column</button>
+        </div>
+        
+        <div class="iteration-info" id="iterationInfo">
+            <h3><i class="fas fa-info-circle"></i> Iteration Information</h3>
+            <p id="iterationText">Initial Tableau - Enter your values</p>
+        </div>
+        
+        <div class="table-container">
+            <table id="simplexTable">
+                <thead>
+                    <tr>
+                        <th>C<sub>B</sub></th>
+                        <th>B.V.</th>
+                        <!-- Columns will be added dynamically -->
+                        <th>Ratio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="solution" id="solutionSection" style="display: none;">
+            <h3><i class="fas fa-check-circle"></i> Solution Found</h3>
+            <p id="solutionText"></p>
+        </div>
+        
+        <div class="iteration-history" id="iterationHistory">
+            <!-- Iteration tables will be added here -->
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-lightbulb"></i> How to Use</h3>
+            <ul>
+                <li>Add or remove rows and columns as needed for your problem</li>
+                <li>Use "Add X3 Column" to add X3 between X2 and S1</li>
+                <li>Use "Add S3 Column" to add S3 between S2 and Solution</li>
+                <li>Enter values directly into the table cells</li>
+                <li>Click "Calculate Zj & Cj-Zj" to compute these values</li>
+                <li>Click "Next Iteration" to perform the simplex pivot operation and create a new table below</li>
+                <li>All iteration tables are fully editable - you can modify values in any table</li>
+                <li>The solution will appear automatically when optimality is reached</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the table with empty values
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTable();
+            
+            // Add event listeners to buttons
+            document.getElementById('addRow').addEventListener('click', addRow);
+            document.getElementById('addColumn').addEventListener('click', addColumn);
+            document.getElementById('removeRow').addEventListener('click', removeRow);
+            document.getElementById('removeColumn').addEventListener('click', removeColumn);
+            document.getElementById('calculate').addEventListener('click', calculateZj);
+            document.getElementById('nextIteration').addEventListener('click', nextIteration);
+            document.getElementById('reset').addEventListener('click', resetTable);
+            document.getElementById('addX3').addEventListener('click', addX3Column);
+            document.getElementById('addS3').addEventListener('click', addS3Column);
+        });
+
+        let iterationCount = 0;
+        let tableData = [];
+
+        function initializeTable() {
+            iterationCount = 0;
+            tableData = [];
+            updateIterationInfo();
+            
+            const table = document.getElementById('simplexTable');
+            const tbody = table.querySelector('tbody');
+            
+            // Clear existing content
+            tbody.innerHTML = '';
+            
+            // Add columns (CB, BV, X1, X2, S1, S2, Solution, Ratio)
+            const headerRow = table.querySelector('thead tr');
+            headerRow.innerHTML = '<th>C<sub>B</sub></th><th>B.V.</th>';
+            
+            const columns = ['X1', 'X2', 'S1', 'S2', 'Solution', 'Ratio'];
+            
+            columns.forEach((col, index) => {
+                const th = document.createElement('th');
+                if (index < columns.length - 2) {
+                    th.innerHTML = `${col}<br><input type="number" class="c-value" placeholder="C${index+1}">`;
+                } else {
+                    th.innerHTML = col;
+                }
+                headerRow.appendChild(th);
+            });
+            
+            // Add initial rows
+            const row1 = addRow();
+            const row2 = addRow();
+            
+            // Add Zj row
+            const zjRow = addRow();
+            zjRow.classList.add('zj-row');
+            const zjCells = zjRow.querySelectorAll('td');
+            zjCells[0].textContent = 'Zj';
+            zjCells[1].textContent = 'Zj';
+            
+            // Add Cj-Zj row
+            const cjZjRow = addRow();
+            cjZjRow.classList.add('cj-zj-row');
+            const cjZjCells = cjZjRow.querySelectorAll('td');
+            cjZjCells[0].textContent = 'Cj-Zj';
+            cjZjCells[1].textContent = 'Cj-Zj';
+            
+            // Clear iteration history
+            document.getElementById('iterationHistory').innerHTML = '';
+            
+            // Hide solution section
+            document.getElementById('solutionSection').style.display = 'none';
+        }
+
+        function updateIterationInfo() {
+            const iterationText = document.getElementById('iterationText');
+            iterationText.textContent = `Iteration: ${iterationCount} - Enter your values`;
+        }
+
+        function addRow() {
+            const tbody = document.getElementById('simplexTable').querySelector('tbody');
+            const headerRow = document.getElementById('simplexTable').querySelector('thead tr');
+            const columnCount = headerRow.cells.length;
+            
+            const newRow = document.createElement('tr');
+            
+            // Add cells to the new row
+            for (let i = 0; i < columnCount; i++) {
+                const cell = document.createElement('td');
+                
+                if (i < 2) {
+                    // For CB and BV columns
+                    if (i === 0) {
+                        cell.innerHTML = '<input type="number" placeholder="CB">';
+                    } else {
+                        cell.innerHTML = '<input type="text" placeholder="BV">';
+                    }
+                } else {
+                    // For variable columns, Solution, and Ratio
+                    cell.innerHTML = '<input type="number" placeholder="0">';
+                }
+                
+                newRow.appendChild(cell);
+            }
+            
+            tbody.appendChild(newRow);
+            return newRow;
+        }
+
+        function addColumn() {
+            const headerRow = document.getElementById('simplexTable').querySelector('thead tr');
+            const rows = document.getElementById('simplexTable').querySelectorAll('tr');
+            const columnIndex = headerRow.cells.length - 2; // Before the Solution and Ratio columns
+            
+            // Add header for new column
+            const newHeader = document.createElement('th');
+            newHeader.innerHTML = `X${columnIndex - 1}<br><input type="number" class="c-value" placeholder="C">`;
+            headerRow.insertBefore(newHeader, headerRow.cells[headerRow.cells.length - 2]);
+            
+            // Add cells for the new column in each row
+            rows.forEach((row, rowIndex) => {
+                if (rowIndex === 0) return; // Skip header row
+                
+                const newCell = document.createElement('td');
+                
+                if (row.classList.contains('zj-row') || row.classList.contains('cj-zj-row')) {
+                    // For Zj and Cj-Zj rows, add empty cells (will be calculated)
+                    newCell.textContent = '0';
+                } else {
+                    // For regular rows, add input fields
+                    newCell.innerHTML = '<input type="number" placeholder="0">';
+                }
+                
+                row.insertBefore(newCell, row.cells[row.cells.length - 2]);
+            });
+        }
+
+        function addX3Column() {
+            const headerRow = document.getElementById('simplexTable').querySelector('thead tr');
+            const rows = document.getElementById('simplexTable').querySelectorAll('tr');
+            
+            // Find position for X3 (between X2 and S1)
+            let insertPosition = 4; // After X2, before S1
+            
+            // Check if X2 exists
+            let x2Index = -1;
+            for (let i = 2; i < headerRow.cells.length; i++) {
+                if (headerRow.cells[i].textContent.includes('X2')) {
+                    x2Index = i;
+                    break;
+                }
+            }
+            
+            if (x2Index !== -1) {
+                insertPosition = x2Index + 1;
+            }
+            
+            // Add header for X3
+            const newHeader = document.createElement('th');
+            newHeader.innerHTML = `X3<br><input type="number" class="c-value" placeholder="C">`;
+            headerRow.insertBefore(newHeader, headerRow.cells[insertPosition]);
+            
+            // Add cells for X3 in each row
+            rows.forEach((row, rowIndex) => {
+                if (rowIndex === 0) return; // Skip header row
+                
+                const newCell = document.createElement('td');
+                
+                if (row.classList.contains('zj-row') || row.classList.contains('cj-zj-row')) {
+                    // For Zj and Cj-Zj rows, add empty cells (will be calculated)
+                    newCell.textContent = '0';
+                } else {
+                    // For regular rows, add input fields
+                    newCell.innerHTML = '<input type="number" placeholder="0">';
+                }
+                
+                row.insertBefore(newCell, row.cells[insertPosition]);
+            });
+            
+            alert('X3 column added successfully between X2 and S1!');
+        }
+
+        function addS3Column() {
+            const headerRow = document.getElementById('simplexTable').querySelector('thead tr');
+            const rows = document.getElementById('simplexTable').querySelectorAll('tr');
+            
+            // Find position for S3 (between S2 and Solution)
+            let insertPosition = headerRow.cells.length - 2; // Before Solution column
+            
+            // Check if S2 exists
+            let s2Index = -1;
+            for (let i = 2; i < headerRow.cells.length; i++) {
+                if (headerRow.cells[i].textContent.includes('S2')) {
+                    s2Index = i;
+                    break;
+                }
+            }
+            
+            if (s2Index !== -1) {
+                insertPosition = s2Index + 1;
+            }
+            
+            // Add header for S3
+            const newHeader = document.createElement('th');
+            newHeader.innerHTML = `S3<br><input type="number" class="c-value" placeholder="C">`;
+            headerRow.insertBefore(newHeader, headerRow.cells[insertPosition]);
+            
+            // Add cells for S3 in each row
+            rows.forEach((row, rowIndex) => {
+                if (rowIndex === 0) return; // Skip header row
+                
+                const newCell = document.createElement('td');
+                
+                if (row.classList.contains('zj-row') || row.classList.contains('cj-zj-row')) {
+                    // For Zj and Cj-Zj rows, add empty cells (will be calculated)
+                    newCell.textContent = '0';
+                } else {
+                    // For regular rows, add input fields
+                    newCell.innerHTML = '<input type="number" placeholder="0">';
+                }
+                
+                row.insertBefore(newCell, row.cells[insertPosition]);
+            });
+            
+            alert('S3 column added successfully between S2 and Solution!');
+        }
+
+        function removeRow() {
+            const tbody = document.getElementById('simplexTable').querySelector('tbody');
+            if (tbody.rows.length > 3) { // Keep at least 2 data rows + Zj + Cj-Zj
+                tbody.removeChild(tbody.lastChild);
+            } else {
+                alert('Need at least 2 constraint rows');
+            }
+        }
+
+        function removeColumn() {
+            const headerRow = document.getElementById('simplexTable').querySelector('thead tr');
+            const rows = document.getElementById('simplexTable').querySelectorAll('tr');
+            
+            if (headerRow.cells.length > 6) { // Keep at least CB, BV, X1, X2, Solution, Ratio
+                // Remove header
+                headerRow.removeChild(headerRow.cells[headerRow.cells.length - 3]);
+                
+                // Remove cells from each row
+                rows.forEach(row => {
+                    if (row.cells.length > 6) {
+                        row.removeChild(row.cells[row.cells.length - 3]);
+                    }
+                });
+            } else {
+                alert('Need at least 2 variables and 2 slack variables');
+            }
+        }
+
+        function calculateZj() {
+            const table = document.getElementById('simplexTable');
+            const headerRow = table.querySelector('thead tr');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            // Get C values from header
+            const cValues = [];
+            const cInputs = headerRow.querySelectorAll('.c-value');
+            cInputs.forEach(input => {
+                cValues.push(parseFloat(input.value) || 0);
+            });
+            
+            // Find Zj and Cj-Zj rows
+            let zjRow, cjZjRow;
+            rows.forEach(row => {
+                if (row.classList.contains('zj-row')) zjRow = row;
+                if (row.classList.contains('cj-zj-row')) cjZjRow = row;
+            });
+            
+            // Calculate Zj values
+            const zjCells = zjRow.querySelectorAll('td');
+            for (let col = 2; col < zjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                let sum = 0;
+                
+                // Sum of CB * coefficient for each basic variable row
+                for (let row = 0; row < rows.length - 2; row++) { // Exclude Zj and Cj-Zj rows
+                    const cb = parseFloat(rows[row].cells[0].querySelector('input').value) || 0;
+                    const coefficient = parseFloat(rows[row].cells[col].querySelector('input').value) || 0;
+                    sum += cb * coefficient;
+                }
+                
+                zjCells[col].textContent = sum.toFixed(2);
+            }
+            
+            // Calculate Cj-Zj values
+            const cjZjCells = cjZjRow.querySelectorAll('td');
+            for (let col = 2; col < cjZjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                const cj = cValues[col - 2];
+                const zj = parseFloat(zjCells[col].textContent) || 0;
+                cjZjCells[col].textContent = (cj - zj).toFixed(2);
+            }
+            
+            // Calculate ratios for the next iteration
+            calculateRatios();
+            
+            // Check for optimal solution
+            checkOptimalSolution();
+        }
+
+        function calculateRatios() {
+            const table = document.getElementById('simplexTable');
+            const rows = table.querySelectorAll('tbody tr');
+            const cjZjRow = table.querySelector('.cj-zj-row');
+            const cjZjCells = cjZjRow.querySelectorAll('td');
+            
+            // Find entering variable (most positive Cj-Zj)
+            let maxValue = -Infinity;
+            let enteringCol = -1;
+            
+            for (let col = 2; col < cjZjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                const value = parseFloat(cjZjCells[col].textContent) || 0;
+                if (value > maxValue) {
+                    maxValue = value;
+                    enteringCol = col;
+                }
+            }
+            
+            if (enteringCol === -1) return; // No positive Cj-Zj values
+            
+            // Calculate ratios for each row
+            for (let row = 0; row < rows.length - 2; row++) { // Exclude Zj and Cj-Zj rows
+                const enteringCoeff = parseFloat(rows[row].cells[enteringCol].querySelector('input').value) || 0;
+                const solutionValue = parseFloat(rows[row].cells[rows[row].cells.length - 2].querySelector('input').value) || 0;
+                const ratioCell = rows[row].cells[rows[row].cells.length - 1].querySelector('input');
+                
+                if (enteringCoeff > 0) {
+                    const ratio = solutionValue / enteringCoeff;
+                    ratioCell.value = ratio.toFixed(2);
+                } else {
+                    ratioCell.value = '∞';
+                }
+            }
+        }
+
+        function checkOptimalSolution() {
+            const table = document.getElementById('simplexTable');
+            const cjZjRow = table.querySelector('.cj-zj-row');
+            const cjZjCells = cjZjRow.querySelectorAll('td');
+            
+            let allNonPositive = true;
+            for (let col = 2; col < cjZjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                const value = parseFloat(cjZjCells[col].textContent) || 0;
+                if (value > 0) {
+                    allNonPositive = false;
+                    break;
+                }
+            }
+            
+            if (allNonPositive) {
+                displaySolution();
+            }
+        }
+
+        function displaySolution() {
+            const table = document.getElementById('simplexTable');
+            const rows = table.querySelectorAll('tbody tr');
+            const solutionSection = document.getElementById('solutionSection');
+            const solutionText = document.getElementById('solutionText');
+            
+            let solution = "";
+            let zValue = 0;
+            
+            // Get values of basic variables
+            for (let i = 0; i < rows.length - 2; i++) {
+                const bv = rows[i].cells[1].querySelector('input').value;
+                const solutionValue = parseFloat(rows[i].cells[rows[i].cells.length - 2].querySelector('input').value) || 0;
+                const cb = parseFloat(rows[i].cells[0].querySelector('input').value) || 0;
+                
+                solution += `<strong>${bv} = ${solutionValue.toFixed(2)}</strong><br>`;
+                zValue += cb * solutionValue;
+            }
+            
+            solution += `<br><strong>Optimal Z = ${zValue.toFixed(2)}</strong>`;
+            solutionText.innerHTML = solution;
+            solutionSection.style.display = 'block';
+        }
+
+        function nextIteration() {
+            // Save current table data
+            saveTableData();
+            
+            // Create a new table for this iteration
+            createIterationTable();
+            
+            // Perform calculations for next iteration
+            calculateZj();
+            iterationCount++;
+            updateIterationInfo();
+            
+            const table = document.getElementById('simplexTable');
+            const cjZjRow = table.querySelector('.cj-zj-row');
+            const cjZjCells = cjZjRow.querySelectorAll('td');
+            
+            // Find entering variable (most positive Cj-Zj)
+            let maxValue = -Infinity;
+            let enteringCol = -1;
+            
+            for (let col = 2; col < cjZjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                const value = parseFloat(cjZjCells[col].textContent) || 0;
+                if (value > maxValue) {
+                    maxValue = value;
+                    enteringCol = col;
+                }
+            }
+            
+            if (enteringCol === -1) {
+                alert("Optimal solution reached!");
+                return;
+            }
+            
+            // Find leaving variable (minimum ratio)
+            const rows = table.querySelectorAll('tbody tr');
+            let minRatio = Infinity;
+            let leavingRow = -1;
+            
+            for (let row = 0; row < rows.length - 2; row++) {
+                const enteringCoeff = parseFloat(rows[row].cells[enteringCol].querySelector('input').value) || 0;
+                const solutionValue = parseFloat(rows[row].cells[rows[row].cells.length - 2].querySelector('input').value) || 0;
+                
+                if (enteringCoeff > 0) {
+                    const ratio = solutionValue / enteringCoeff;
+                    if (ratio < minRatio) {
+                        minRatio = ratio;
+                        leavingRow = row;
+                    }
+                }
+            }
+            
+            if (leavingRow === -1) {
+                alert("Problem is unbounded!");
+                return;
+            }
+            
+            // Highlight entering and leaving variables
+            const headerRow = table.querySelector('thead tr');
+            const enteringVarHeader = headerRow.cells[enteringCol];
+            enteringVarHeader.classList.add('entering-variable');
+            
+            const leavingBVCell = rows[leavingRow].cells[1];
+            leavingBVCell.classList.add('leaving-variable');
+            
+            // Update the basic variable
+            const enteringVar = headerRow.cells[enteringCol].textContent.split('<')[0];
+            const leavingBVCellInput = leavingBVCell.querySelector('input');
+            leavingBVCellInput.value = enteringVar;
+            
+            // Update CB value
+            const cInputs = headerRow.querySelectorAll('.c-value');
+            const newCB = parseFloat(cInputs[enteringCol - 2].value) || 0;
+            const cbCell = rows[leavingRow].cells[0].querySelector('input');
+            cbCell.value = newCB;
+            
+            // Highlight pivot element
+            const pivotCell = rows[leavingRow].cells[enteringCol].querySelector('input');
+            pivotCell.parentElement.classList.add('pivot-cell');
+            
+            // Update iteration info
+            document.getElementById('iterationText').textContent = 
+                `Iteration: ${iterationCount} | Entering: ${enteringVar} | Leaving: ${leavingBVCellInput.value}`;
+            
+            // Remove highlights after 3 seconds
+            setTimeout(() => {
+                enteringVarHeader.classList.remove('entering-variable');
+                leavingBVCell.classList.remove('leaving-variable');
+                pivotCell.parentElement.classList.remove('pivot-cell');
+            }, 3000);
+        }
+
+        function saveTableData() {
+            const table = document.getElementById('simplexTable');
+            const headerRow = table.querySelector('thead tr');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            const data = {
+                iteration: iterationCount,
+                headers: [],
+                rows: []
+            };
+            
+            // Save headers
+            for (let i = 0; i < headerRow.cells.length; i++) {
+                data.headers.push(headerRow.cells[i].innerHTML);
+            }
+            
+            // Save rows
+            for (let i = 0; i < rows.length; i++) {
+                const rowData = [];
+                for (let j = 0; j < rows[i].cells.length; j++) {
+                    const input = rows[i].cells[j].querySelector('input');
+                    if (input) {
+                        rowData.push(input.value);
+                    } else {
+                        rowData.push(rows[i].cells[j].textContent);
+                    }
+                }
+                data.rows.push(rowData);
+            }
+            
+            tableData.push(data);
+        }
+
+        function createIterationTable() {
+            const iterationHistory = document.getElementById('iterationHistory');
+            
+            const iterationDiv = document.createElement('div');
+            iterationDiv.className = 'iteration-table';
+            iterationDiv.id = `iteration-${iterationCount}`;
+            
+            const iterationHeader = document.createElement('div');
+            iterationHeader.className = 'iteration-header';
+            iterationHeader.innerHTML = `
+                <span>Iteration: ${iterationCount} - Enter your values</span>
+                <div class="iteration-controls">
+                    <button onclick="calculateIterationTable(${iterationCount})"><i class="fas fa-calculator"></i> Calculate</button>
+                    <button onclick="useAsCurrentTable(${iterationCount})"><i class="fas fa-sync"></i> Use as Current</button>
+                </div>
+            `;
+            
+            const tableContainer = document.createElement('div');
+            tableContainer.className = 'table-container';
+            
+            const table = document.createElement('table');
+            table.id = `iterationTable-${iterationCount}`;
+            
+            // Create header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            tableData[tableData.length - 1].headers.forEach((header, index) => {
+                const th = document.createElement('th');
+                if (index < 2) {
+                    th.innerHTML = header;
+                } else if (index < tableData[tableData.length - 1].headers.length - 2) {
+                    // For variable columns with C values
+                    th.innerHTML = `${header.split('<')[0]}<br><input type="number" class="c-value" placeholder="C" value="${header.split('"')[3] || ''}">`;
+                } else {
+                    th.innerHTML = header;
+                }
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Create body
+            const tbody = document.createElement('tbody');
+            
+            tableData[tableData.length - 1].rows.forEach((rowData, rowIndex) => {
+                const tr = document.createElement('tr');
+                
+                rowData.forEach((cellData, cellIndex) => {
+                    const td = document.createElement('td');
+                    
+                    if (cellIndex < 2) {
+                        // For CB and BV columns
+                        if (cellIndex === 0) {
+                            td.innerHTML = `<input type="number" placeholder="CB" value="${cellData}">`;
+                        } else {
+                            td.innerHTML = `<input type="text" placeholder="BV" value="${cellData}">`;
+                        }
+                    } else if (cellIndex < rowData.length - 2) {
+                        // For variable columns
+                        td.innerHTML = `<input type="number" placeholder="0" value="${cellData}">`;
+                    } else if (cellIndex === rowData.length - 2) {
+                        // For Solution column
+                        td.innerHTML = `<input type="number" placeholder="0" value="${cellData}">`;
+                    } else {
+                        // For Ratio column
+                        td.innerHTML = `<input type="text" placeholder="Ratio" value="${cellData}" readonly>`;
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                
+                tbody.appendChild(tr);
+            });
+            
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+            
+            iterationDiv.appendChild(iterationHeader);
+            iterationDiv.appendChild(tableContainer);
+            
+            iterationHistory.appendChild(iterationDiv);
+        }
+
+        function calculateIterationTable(iterationNum) {
+            const table = document.getElementById(`iterationTable-${iterationNum}`);
+            const headerRow = table.querySelector('thead tr');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            // Get C values from header
+            const cValues = [];
+            const cInputs = headerRow.querySelectorAll('.c-value');
+            cInputs.forEach(input => {
+                cValues.push(parseFloat(input.value) || 0);
+            });
+            
+            // Find Zj and Cj-Zj rows
+            let zjRow, cjZjRow;
+            rows.forEach(row => {
+                const firstCell = row.cells[0].querySelector('input');
+                if (firstCell && firstCell.value === 'Zj') {
+                    zjRow = row;
+                } else if (firstCell && firstCell.value === 'Cj-Zj') {
+                    cjZjRow = row;
+                }
+            });
+            
+            if (zjRow && cjZjRow) {
+                // Calculate Zj values
+                const zjCells = zjRow.querySelectorAll('td');
+                for (let col = 2; col < zjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                    let sum = 0;
+                    
+                    // Sum of CB * coefficient for each basic variable row
+                    for (let row = 0; row < rows.length - 2; row++) { // Exclude Zj and Cj-Zj rows
+                        const cb = parseFloat(rows[row].cells[0].querySelector('input').value) || 0;
+                        const coefficient = parseFloat(rows[row].cells[col].querySelector('input').value) || 0;
+                        sum += cb * coefficient;
+                    }
+                    
+                    zjCells[col].querySelector('input').value = sum.toFixed(2);
+                }
+                
+                // Calculate Cj-Zj values
+                const cjZjCells = cjZjRow.querySelectorAll('td');
+                for (let col = 2; col < cjZjCells.length - 2; col++) { // Exclude Solution and Ratio columns
+                    const cj = cValues[col - 2];
+                    const zj = parseFloat(zjCells[col].querySelector('input').value) || 0;
+                    cjZjCells[col].querySelector('input').value = (cj - zj).toFixed(2);
+                }
+                
+                alert(`Iteration ${iterationNum} calculated successfully!`);
+            } else {
+                alert("Cannot find Zj and Cj-Zj rows in this iteration table");
+            }
+        }
+
+        function useAsCurrentTable(iterationNum) {
+            const iterationTable = document.getElementById(`iterationTable-${iterationNum}`);
+            const currentTable = document.getElementById('simplexTable');
+            
+            if (!iterationTable) {
+                alert("Iteration table not found!");
+                return;
+            }
+            
+            // Copy headers
+            const currentHeader = currentTable.querySelector('thead tr');
+            const iterationHeader = iterationTable.querySelector('thead tr');
+            currentHeader.innerHTML = iterationHeader.innerHTML;
+            
+            // Copy rows
+            const currentTbody = currentTable.querySelector('tbody');
+            const iterationTbody = iterationTable.querySelector('tbody');
+            currentTbody.innerHTML = iterationTbody.innerHTML;
+            
+            alert(`Iteration ${iterationNum} loaded as current table!`);
+        }
+
+        function resetTable() {
+            initializeTable();
+        }
+    </script>
+</body>
+</html>

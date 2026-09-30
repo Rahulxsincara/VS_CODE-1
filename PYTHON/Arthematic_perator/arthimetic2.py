@@ -1,0 +1,14 @@
+a=500
+b=200
+sum=a=+b
+sub=a-b
+mul=a*b
+div=a/b
+modulo=a%b
+power=2**5
+print(sum)
+print(sub)
+print(mul)
+print(div)
+print(modulo)
+print(power)

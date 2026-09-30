@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wanderly — Responsive Landing</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ====== NAVIGATION ====== -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <!-- Logo -->
+            <a href="#" class="logo">Wanderly</a>
+
+            <!-- Hamburger (mobile) -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <!-- Nav links -->
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Experiences</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#" class="nav-cta">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ====== HERO SECTION ====== -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Find your next <span>adventure</span></h1>
+                <p>Discover curated experiences, hidden gems, and unforgettable moments — all tailored to your travel style.</p>
+                <a href="#" class="btn btn-primary">Explore now</a>
+            </div>
+            <div class="hero-image">
+                <!-- decorative image (pure CSS + emoji) -->
+                <div class="hero-illustration">
+                    <span class="landscape">🏔️🌲🌅</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== JAVASCRIPT (hamburger toggle) ====== -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked (optional)
+        document.querySelectorAll('.nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

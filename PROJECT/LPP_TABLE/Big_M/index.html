@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big M Method - LPP Solver</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Big M Method Solver</h1>
+            <p>Linear Programming Problem Solver using Big M Method</p>
+        </header>
+
+        <main>
+            <section class="configuration">
+                <h2>Problem Configuration</h2>
+                <div class="config-form">
+                    <div class="input-group">
+                        <label for="num-variables">Number of Variables:</label>
+                        <input type="number" id="num-variables" min="2" max="10" value="2">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="num-constraints">Number of Constraints:</label>
+                        <input type="number" id="num-constraints" min="1" max="10" value="2">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="optimization">Optimization:</label>
+                        <select id="optimization">
+                            <option value="max">Maximize</option>
+                            <option value="min">Minimize</option>
+                        </select>
+                    </div>
+                    
+                    <button id="setup-problem">Setup Problem</button>
+                </div>
+            </section>
+
+            <section class="input-section" id="input-section" style="display: none;">
+                <h2>Enter Objective Function and Constraints</h2>
+                
+                <div class="objective-function">
+                    <h3>Objective Function:</h3>
+                    <div id="objective-inputs"></div>
+                </div>
+
+                <div class="constraints">
+                    <h3>Constraints:</h3>
+                    <div id="constraint-inputs"></div>
+                </div>
+
+                <button id="solve-problem">Solve Problem</button>
+            </section>
+
+            <section class="solution-section" id="solution-section" style="display: none;">
+                <h2>Solution Steps</h2>
+                <div id="solution-container">
+                    <!-- Solution tables will be generated here -->
+                </div>
+            </section>
+
+            <section class="instructions">
+                <h3>How to Use:</h3>
+                <ul>
+                    <li>Enter the number of variables and constraints</li>
+                    <li>Choose whether to maximize or minimize the objective function</li>
+                    <li>Click "Setup Problem" to create input fields</li>
+                    <li>Enter coefficients for the objective function and constraints</li>
+                    <li>Select the constraint type (≤, =, ≥) for each constraint</li>
+                    <li>Click "Solve Problem" to see the step-by-step solution using Big M method</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>Big M Method Solver &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

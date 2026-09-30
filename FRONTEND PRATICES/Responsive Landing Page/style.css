@@ -1,0 +1,624 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: ghostwhite;
+    color: midnightblue;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* -------- NAVBAR (mobile-first) -------- */
+.navbar {
+    background: white;
+    padding: 0.75rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: midnightblue;
+    letter-spacing: -0.5px;
+}
+
+.logo::before {
+    content: '✈️ ';
+    font-size: 1.2rem;
+    display: inline-block;
+    transition: transform 2s ease;
+}
+.logo:hover::before{
+    transform: scale(2);
+
+}
+.logo.active::before {
+    animation: fly 1.5s ease-in-out infinite;
+}
+
+@keyframes fly {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(10px, -8px) rotate(-5deg);
+    }
+
+    50% {
+        transform: translate(20px, 0) rotate(0deg);
+    }
+
+    75% {
+        transform: translate(10px, 8px) rotate(5deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* --- hamburger --- */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    z-index: 10;
+}
+
+.hamburger .bar {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: midnightblue;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- nav menu (hidden by default on mobile) --- */
+.nav-menu {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.2s ease;
+    background: white;
+}
+.nav-menu.active{
+    max-height: 300px;
+    padding:0.75rem 0 0.5rem;
+}
+
+.nav-list{
+    list-style:none;
+    display:flex;
+    flex-direction: column;
+    gap:0.4rem;
+}
+
+.nav-list li a{
+    display:block;
+    padding:0.6rem 0.8rem;
+    color:midnightblue;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius:8px;
+    transition: background 0.2s;
+}
+.nav-list li a:hover{
+    background:lavender;
+}
+.nav-cta{
+    background: midnightblue;
+    color:white !important;
+    text-align:center;
+    font-weight:600;
+}
+.nav-cta:hover{
+    background: rgb(70, 217, 126) !important;
+}
+.hero{
+    padding:2.5rem 0 3rem;
+    background: linear-gradient(160deg,aliceblue 0%,whitesmoke 100%);
+    min-height:70vh;
+    display:flex;
+    align-items: center;
+}
+
+.hero-content{
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+}
+.hero-text h1{
+    font-size:2.2rem;
+    font-weight:800;
+    line-height: 1.15;
+    color:midnightblue;
+    margin-bottom:0.75rem;
+}
+.hero-text h1 span{
+    color:steelblue;
+    background: linear-gradient(135deg,steelblue ,cornflowerblue);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.hero-text p{
+    font-size:1.05rem;
+    color:rgb(61, 139, 129);
+    margin-bottom:1.8rem;
+    max-width:500px
+}
+.btn{
+    display:inline-block;
+    padding:0.9rem 2.4rem;
+    background: midnightblue;
+    color:white;
+    text-decoration: none;
+    border-radius:50px;
+    transition:background 0.2s,transform 0.5s;
+    box-shadow: 0 8px 18px rgab(25,25,112,0.15);
+
+}
+.btn:hover{
+    background: darkslateblue;
+    transform:translateY(-2px);
+}
+.btn-primary{
+    background: steelblue;
+    box-shadow:0 8px 20px rgba(70,130,180,0.3);
+
+}
+.btn-primary:hover{
+    background: royalblue;
+}
+.hero-illustration{
+    font-size:4.5rem;
+    line-height:1.2;
+    text-align:center;
+    background: linear-gradient(145deg,lightsteelblue
+    , lightgray);
+    border-radius:2rem 1rem;
+    box-shadow: 0 12px 28px (0,0,0,0.6);
+    min-height:160px;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    letter-spacing:10px;
+}
+
+============================================================
+   TABLET / DESKTOP (≥ 768px)
+   ============================================================ */
+@media (min-width: 768px) {
+
+    /* --- navbar: show horizontal menu --- */
+    .hamburger {
+        display: none;
+    }
+
+    .nav-menu {
+        max-height: none !important;
+        width: auto;
+        overflow: visible;
+        padding: 0 !important;
+        background: transparent;
+    }
+
+    .nav-list {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .nav-list li a {
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-cta {
+        background: midnightblue;
+        color: white !important;
+        border-radius: 40px;
+        padding: 0.5rem 1.6rem;
+    }
+
+    .nav-cta:hover {
+        background: darkslateblue !important;
+    }
+
+    /* --- hero: side by side --- */
+    .hero-content {
+        flex-direction: row;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .hero-text {
+        flex: 1;
+    }
+
+    .hero-image {
+        flex: 1;
+    }
+
+    .hero-text h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-illustration {
+        font-size: 6rem;
+        padding: 2.5rem 1.5rem;
+        min-height: 200px;
+    }
+}
+
+/* ============================================================
+   LARGE DESKTOP (≥ 1024px)
+   ============================================================ */
+@media (min-width: 1024px) {
+    .hero {
+        padding: 4rem 0;
+        min-height: 80vh;
+    }
+
+    .hero-text h1 {
+        font-size: 3.4rem;
+    }
+
+    .hero-text p {
+        font-size: 1.15rem;
+    }
+
+    .hero-illustration {
+        font-size: 8rem;
+        padding: 3rem 2rem;
+        min-height: 240px;
+        border-radius: 60px 60px 30px 30px;
+    }
+
+    .nav-list {
+        gap: 1.2rem;
+    }
+}
+/* ============================================================
+   MOBILE-FIRST STYLES (base)
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #fafbfc;
+    color: #1e2a3a;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* -------- NAVBAR (mobile-first) -------- */
+.navbar {
+    background: white;
+    padding: 0.75rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #1e2a3a;
+    letter-spacing: -0.5px;
+}
+
+.logo::before {
+    content: '✈️ ';
+    font-size: 1.2rem;
+}
+
+/* --- hamburger --- */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    z-index: 10;
+}
+
+.hamburger .bar {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: #1e2a3a;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- nav menu (hidden by default on mobile) --- */
+.nav-menu {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.2s ease;
+    background: white;
+}
+
+.nav-menu.active {
+    max-height: 300px;
+    padding: 0.75rem 0 0.5rem;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.nav-list li a {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    color: #1e2a3a;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.nav-list li a:hover {
+    background: #f0f3f8;
+}
+
+.nav-cta {
+    background: #1e2a3a;
+    color: white !important;
+    text-align: center;
+    font-weight: 600;
+}
+
+.nav-cta:hover {
+    background: #2c3b4f !important;
+}
+
+/* -------- HERO (mobile-first) -------- */
+.hero {
+    padding: 2.5rem 0 3rem;
+    background: linear-gradient(160deg, #f6f9fc 0%, #e8edf4 100%);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.hero-text h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #0f1a2b;
+    margin-bottom: 0.75rem;
+}
+
+.hero-text h1 span {
+    color: #2d7d9a;
+    background: linear-gradient(135deg, #2d7d9a, #4a9bb8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-text p {
+    font-size: 1.05rem;
+    color: #3b4b5e;
+    margin-bottom: 1.8rem;
+    max-width: 500px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    background: #1e2a3a;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 8px 18px rgba(30, 42, 58, 0.15);
+}
+
+.btn:hover {
+    background: #2c3b4f;
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: #2d7d9a;
+    box-shadow: 0 8px 20px rgba(45, 125, 154, 0.3);
+}
+
+.btn-primary:hover {
+    background: #1f6580;
+}
+
+/* hero illustration (emoji landscape) */
+.hero-illustration {
+    font-size: 4.5rem;
+    line-height: 1.2;
+    text-align: center;
+    background: linear-gradient(145deg, #dce6ef, #c8d4e0);
+    border-radius: 40px 40px 20px 20px;
+    padding: 2rem 1rem;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 10px;
+}
+
+/* ============================================================
+   TABLET / DESKTOP (≥ 768px)
+   ============================================================ */
+@media (min-width: 768px) {
+
+    /* --- navbar: show horizontal menu --- */
+    .hamburger {
+        display: none;
+    }
+
+    .nav-menu {
+        max-height: none !important;
+        width: auto;
+        overflow: visible;
+        padding: 0 !important;
+        background: transparent;
+    }
+
+    .nav-list {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .nav-list li a {
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-cta {
+        background: #1e2a3a;
+        color: white !important;
+        border-radius: 40px;
+        padding: 0.5rem 1.6rem;
+    }
+
+    .nav-cta:hover {
+        background: #2c3b4f !important;
+    }
+
+    /* --- hero: side by side --- */
+    .hero-content {
+        flex-direction: row;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .hero-text {
+        flex: 1;
+    }
+
+    .hero-image {
+        flex: 1;
+    }
+
+    .hero-text h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-illustration {
+        font-size: 6rem;
+        padding: 2.5rem 1.5rem;
+        min-height: 200px;
+    }
+}
+
+/* ============================================================
+   LARGE DESKTOP (≥ 1024px)
+   ============================================================ */
+@media (min-width: 1024px) {
+    .hero {
+        padding: 4rem 0;
+        min-height: 80vh;
+    }
+
+    .hero-text h1 {
+        font-size: 3.4rem;
+    }
+
+    .hero-text p {
+        font-size: 1.15rem;
+    }
+
+    .hero-illustration {
+        font-size: 8rem;
+        padding: 3rem 2rem;
+        min-height: 240px;
+        border-radius: 60px 60px 30px 30px;
+    }
+
+    .nav-list {
+        gap: 1.2rem;
+    }
+}

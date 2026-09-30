@@ -1,0 +1,21 @@
+SELECT EMPLOYEE_ID,First_name,Last_name salary
+FROM EMPLOYEES;
+
+SELECT * FROM EMPLOYEES
+WHERE Manager_ID=100;
+
+SELECT First_name,Last_name FROM EMPLOYEE
+WHERE Salary>=4800;
+
+SELECT * FROM EMPLOYEES
+WHERE Last_name='AUSTIN';
+
+SELECT First_name,Last_name 
+FROM EMPLOYEE
+WHERE Separtment_Id IN (60,70,80);
+
+SELECT DISTINCT Manager_ID
+FROM EMPLOYEES;
+
+
+

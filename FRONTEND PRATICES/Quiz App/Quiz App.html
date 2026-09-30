@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Quiz App | Arrays, Functions, DOM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-card">
+            <!-- Header -->
+            <div class="header">
+                <h1>🧠 Quiz App</h1>
+                <div class="score" id="scoreDisplay">Score: 0/0</div>
+            </div>
+
+            <!-- Question Area -->
+            <div id="questionArea">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="question-number" id="questionNumber">Question 1 of 5</div>
+                <div class="question-text" id="questionText">Loading question...</div>
+
+                <!-- Options -->
+                <div class="options" id="optionsContainer">
+                    <!-- Options will be injected here -->
+                </div>
+
+                <!-- Next Button -->
+                <button class="next-btn" id="nextBtn">Next Question →</button>
+            </div>
+
+            <!-- Result Area (hidden initially) -->
+            <div id="resultArea" style="display: none;">
+                <div class="result-icon" id="resultIcon">🎉</div>
+                <div class="result-title" id="resultTitle">Quiz Complete!</div>
+                <div class="result-score" id="resultScore">You got 0 out of 5 correct!</div>
+                <div class="result-message" id="resultMessage">Great job! Keep learning!</div>
+                <button class="restart-btn" onclick="restartQuiz()">🔄 Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My library | Educational Resource Library</title>
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <script>
+        // Redirect to login if not authenticated
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-btn" id="themeToggle">
+            <i class="fas fa-palette"></i>
+            <span>Themes</span>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+            <button class="theme-option" data-theme="light">Light</button>
+            <button class="theme-option" data-theme="dark">Dark</button>
+            <button class="theme-option" data-theme="black">Black</button>
+            <button class="theme-option" data-theme="modern-portfolio">Modern Portfolio</button>
+        </div>
+    </div>
+    
+    <!-- Favicon Button -->
+    <div class="favicon-button">
+        <a href="favicon/favicon.ico" download="favicon.ico" title="Download Favicon">
+            <i class="fas fa-star"></i>
+        </a>
+    </div>
+
+    <div id="landing-page">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1>My library</h1>
+            </div>
+            <p class="tagline">Discover, Download, and Collaborate on Educational Resources</p>
+            
+            <div class="search-container">
+                <input type="text" placeholder="Search for resources, authors, or subjects...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </header>
+
+        <nav>
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-book"></i> Resources</a>
+            <a href="pdf-reader.html"><i class="fas fa-file-pdf"></i> PDF Reader</a>
+            <a href="#"><i class="fas fa-cloud-upload-alt"></i> Upload</a>
+            <a href="#"><i class="fas fa-comments"></i> Community</a>
+            <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+            <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="login.html" id="login-nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="register.html" id="register-nav-link"><i class="fas fa-user-plus"></i> Register</a>
+            <a href="#" id="chat-nav-link"><i class="fas fa-comment-dots"></i> Chat</a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Welcome</h2>
+            </div>
+            
+            <div class="year-selector-container">
+                <h2 class="year-selector-title">Select Your Academic Year</h2>
+                <p class="year-selector-subtitle">Choose the appropriate year level for your current academic standing</p>
+                
+                <div class="years-container">
+                    <div class="year-option" data-year="1">
+                        <div class="year-number">1</div>
+                        <div class="year-label">First Year</div>
+                        <div class="year-description">Freshman students beginning their academic journey</div>
+                    </div>
+                    
+                    <div class="year-option" data-year="2">
+                        <div class="year-number">2</div>
+                        <div class="year-label">Second Year</div>
+                        <div class="year-description">Sophomore students building foundational knowledge</div>
+                    </div>
+                    
+                    <div class="year-option" data-year="3">
+                        <div class="year-number">3</div>
+                        <div class="year-label">Third Year</div>
+                        <div class="year-description">Junior students focusing on major-specific courses</div>
+                    </div>
+                    
+                    <div class="year-option" data-year="4">
+                        <div class="year-number">4</div>
+                        <div class="year-label">Fourth Year</div>
+                        <div class="year-description">Senior students preparing for graduation and career</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button class="btn-primary" id="confirmBtn">View Courses</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <h2>No Courses Available</h2>
+            <p>Select your academic year to view available courses and resources for that year.</p>
+        </div>
+
+        <div class="stats">
+            <h2>Our Impact in Numbers</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">5,247</div>
+                    <div class="stat-label">Resources Shared</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">28,931</div>
+                    <div class="stat-label">Downloads</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1,584</div>
+                    <div class="stat-label">Active Contributors</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>My library - Open Education Resources Platform</p>
+            <p>&copy; 2023 All rights reserved</p>
+        </footer>
+    </div>
+
+    <div id="year-1-page" class="year-page">
+        <div class="year-header">
+            <h1 class="year-title">First Year Courses</h1>
+            <p class="year-subtitle">Freshman students beginning their academic journey</p>
+            <a href="#" class="back-button" data-back="landing-page">
+                <i class="fas fa-arrow-left"></i> Back to Year Selection
+            </a>
+        </div>
+
+        <div class="semester-options">
+            <div class="semester-option" data-semester="1">
+                <div class="semester-number">1</div>
+                <div class="semester-label">First Semester</div>
+                <div class="semester-courses">6 Courses</div>
+            </div>
+            <div class="semester-option" data-semester="2">
+                <div class="semester-number">2</div>
+                <div class="semester-label">Second Semester</div>
+                <div class="semester-courses">7 Courses</div>
+            </div>
+        </div>
+
+        <div class="year-courses">
+            <div class="semester-content" id="year-1-semester-1-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 1 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">CLANG</div>
+                            <div class="course-name">C Language</div>
+                            <div class="course-description">Fundamentals of programming using C language</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">IOT</div>
+                            <div class="course-name">Internet of Things</div>
+                            <div class="course-description">Introduction to IoT concepts and applications</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">COMM1</div>
+                            <div class="course-name">Communication</div>
+                            <div class="course-description">Effective communication skills</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">VMATH</div>
+                            <div class="course-name">Vedic Math</div>
+                            <div class="course-description">Ancient Indian mathematical techniques</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">DMATH</div>
+                            <div class="course-name">Discrete Math</div>
+                            <div class="course-description">Mathematical structures used in computer science</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">HVALUE</div>
+                            <div class="course-name">Human Value</div>
+                            <div class="course-description">Ethics and human values in professional life</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="semester-content" id="year-1-semester-2-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 2 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">DDCA</div>
+                            <div class="course-name">Digital Design and Computer Architecture</div>
+                            <div class="course-description">Digital logic design and computer organization</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">BEEC</div>
+                            <div class="course-name">Basic Electrical and Electronic Circuits</div>
+                            <div class="course-description">Fundamentals of electrical and electronic circuits</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">DS</div>
+                            <div class="course-name">Data Structure</div>
+                            <div class="course-description">Advanced data structures and algorithms</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">LALG</div>
+                            <div class="course-name">Linear Algebra</div>
+                            <div class="course-description">Vector spaces, matrices, and linear transformations</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">COMM2</div>
+                            <div class="course-name">Communication</div>
+                            <div class="course-description">Advanced communication skills</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">ICON</div>
+                            <div class="course-name">Indian Constitution</div>
+                            <div class="course-description">Understanding the Indian Constitution and governance</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">SIL</div>
+                            <div class="course-name">SIL</div>
+                            <div class="course-description">Soft skills and life skills development</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="year-2-page" class="year-page">
+        <div class="year-header">
+            <h1 class="year-title">Second Year Courses</h1>
+            <p class="year-subtitle">Sophomore students building foundational knowledge</p>
+            <a href="#" class="back-button" data-back="landing-page">
+                <i class="fas fa-arrow-left"></i> Back to Year Selection
+            </a>
+        </div>
+
+        <div class="semester-options">
+            <div class="semester-option" data-semester="1">
+                <div class="semester-number">1</div>
+                <div class="semester-label">First Semester</div>
+                <div class="semester-courses">9 Courses</div>
+            </div>
+            <div class="semester-option" data-semester="2">
+                <div class="semester-number">2</div>
+                <div class="semester-label">Second Semester</div>
+                <div class="semester-courses">2 Courses</div>
+            </div>
+        </div>
+
+        <div class="year-courses">
+            <div class="semester-content" id="year-2-semester-1-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 1 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">DBMS</div>
+                            <div class="course-name">Database Management Systems</div>
+                            <div class="course-description">Concepts and design of database systems, SQL, normalization, transactions</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">CN</div>
+                            <div class="course-name">Computer Network</div>
+                            <div class="course-description">Network architecture, protocols, routing, and security</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">FE</div>
+                            <div class="course-name">Front End</div>
+                            <div class="course-description">HTML, CSS, JavaScript, and modern front-end frameworks</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">OOPS</div>
+                            <div class="course-name">Object Oriented Programming using Java</div>
+                            <div class="course-description">Principles of OOP, classes, objects, inheritance, polymorphism in Java</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">AIML</div>
+                            <div class="course-name">Artificial Intelligence and Machine Learning</div>
+                            <div class="course-description">Introduction to AI concepts, machine learning algorithms and applications</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">DA</div>
+                            <div class="course-name">Data Analytics</div>
+                            <div class="course-description">Data analysis techniques, visualization, and interpretation</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">PC</div>
+                            <div class="course-name">Processor and Controller</div>
+                            <div class="course-description">Microprocessor architecture, instruction sets, and controller design</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">MO</div>
+                            <div class="course-name">Mathematical Optimization</div>
+                            <div class="course-description">Linear programming, optimization techniques and applications</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">JL</div>
+                            <div class="course-name">Japanese Language</div>
+                            <div class="course-description">Introduction to Japanese language, writing systems, and culture</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="semester-content" id="year-2-semester-2-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 2 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">OS</div>
+                            <div class="course-name">Operating System</div>
+                            <div class="course-description">Process management, memory management, file systems, and security</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">PROB</div>
+                            <div class="course-name">Probability</div>
+                            <div class="course-description">Probability theory, distributions, and statistical inference</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">SIL</div>
+                            <div class="course-name">social immersive learning</div>
+                            <div class="course-description">student activity<br></div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="year-3-page" class="year-page">
+        <div class="year-header">
+            <h1 class="year-title">Third Year Courses</h1>
+            <p class="year-subtitle">Junior students focusing on major-specific courses</p>
+            <a href="#" class="back-button" data-back="landing-page">
+                <i class="fas fa-arrow-left"></i> Back to Year Selection
+            </a>
+        </div>
+
+        <div class="semester-options">
+            <div class="semester-option" data-semester="1">
+                <div class="semester-number">1</div>
+                <div class="semester-label">First Semester</div>
+                <div class="semester-courses">3 Courses</div>
+            </div>
+            <div class="semester-option" data-semester="2">
+                <div class="semester-number">2</div>
+                <div class="semester-label">Second Semester</div>
+                <div class="semester-courses">3 Courses</div>
+            </div>
+        </div>
+
+        <div class="year-courses">
+            <div class="semester-content" id="year-3-semester-1-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 1 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">CS301</div>
+                            <div class="course-name">Software Engineering</div>
+                            <div class="course-description">Principles of modern software development, testing, and maintenance.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">MATH301</div>
+                            <div class="course-name">Linear Algebra</div>
+                            <div class="course-description">Vector spaces, linear transformations, matrices, and eigenvalues.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">ENG301</div>
+                            <div class="course-name">Technical Writing</div>
+                            <div class="course-description">Effective communication of complex technical information.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="semester-content" id="year-3-semester-2-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 2 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">CS302</div>
+                            <div class="course-name">Artificial Intelligence</div>
+                            <div class="course-description">Introduction to AI, machine learning, and basic neural networks.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">CS303</div>
+                            <div class="course-name">Web Development II</div>
+                            <div class="course-description">Advanced front-end frameworks and back-end integration.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">BIO301</div>
+                            <div class="course-name">Bioinformatics (Elective)</div>
+                            <div class="course-description">Using computational tools to analyze biological data.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="year-4-page" class="year-page">
+        <div class="year-header">
+            <h1 class="year-title">Fourth Year Courses</h1>
+            <p class="year-subtitle">Senior students preparing for graduation and career</p>
+            <a href="#" class="back-button" data-back="landing-page">
+                <i class="fas fa-arrow-left"></i> Back to Year Selection
+            </a>
+        </div>
+
+        <div class="semester-options">
+            <div class="semester-option" data-semester="1">
+                <div class="semester-number">1</div>
+                <div class="semester-label">First Semester</div>
+                <div class="semester-courses">2 Courses</div>
+            </div>
+            <div class="semester-option" data-semester="2">
+                <div class="semester-number">2</div>
+                <div class="semester-label">Second Semester</div>
+                <div class="semester-courses">2 Courses</div>
+            </div>
+        </div>
+
+        <div class="year-courses">
+            <div class="semester-content" id="year-4-semester-1-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 1 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">CS401</div>
+                            <div class="course-name">Capstone Project I (Research)</div>
+                            <div class="course-description">Defining and initiating the final year project.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">CS402</div>
+                            <div class="course-name">Advanced Data Science</div>
+                            <div class="course-description">Deep dive into large-scale data processing and analysis.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="semester-content" id="year-4-semester-2-content">
+                <div class="semester-section">
+                    <h2 class="semester-title">Semester 2 Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-code">CS403</div>
+                            <div class="course-name">Capstone Project II (Development)</div>
+                            <div class="course-description">Implementation and defense of the final year project.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-code">ETH401</div>
+                            <div class="course-name">Professional Ethics in Tech</div>
+                            <div class="course-description">Case studies in data privacy, bias, and social impact.</div>
+                            <div class="course-actions">
+                                <a href="#" class="course-btn primary">View Resources</a>
+                                <a href="#" class="course-btn secondary">Syllabus</a>
+                                <a href="#" class="course-btn upload-btn">
+                                    <i class="fas fa-upload"></i> Upload File
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <!-- Database Scripts -->
+    <script src="database/db.js"></script>
+    <script src="database/courseDb.js"></script>
+    <script src="database/demo.js"></script>
+    <script src="database/utils.js"></script>
+    
+    <!-- Chat Container -->
+    <div id="chat-container">
+        <div id="chat-header">
+            <span id="chat-title">Library Assistant</span>
+            <button id="chat-close">&times;</button>
+        </div>
+        <div id="chat-messages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button id="chat-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Chat Toggle Button -->
+    <button id="chat-toggle">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+</body>
+</html>

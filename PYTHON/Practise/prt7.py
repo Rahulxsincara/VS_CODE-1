@@ -1,0 +1,6 @@
+print('print numbers')
+num=int(7)
+print(num)
+print(4)
+print(45+96)
+print(78*78)

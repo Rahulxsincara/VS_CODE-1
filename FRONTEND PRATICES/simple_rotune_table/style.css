@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Comic Relief", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  background: whitesmoke;
+  color: rgb(135, 63, 222);
+  padding: 30px 20px;
+}
+
+.page_header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.page_title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgb(33, 18, 199);
+  border: 2.5px solid rgb(11, 136, 7);
+  border-radius: 10px;
+  background: rgb(146, 229, 95);
+}
+
+.page_main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.timetable {
+  background-color: white;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: rgb(255, 255, 255);
+  border: 2px solid midnightblue;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+.table_head {
+  background: #ccf3f2;
+  color: black;
+}
+.head_row th {
+  padding: 12px 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid navy;
+  line-height: 1.4;
+}
+.day_col {
+  background: navajowhite;
+  width: 12%;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+.slot {
+  width: auto;
+  white-space: nowrap;
+}
+.table_body tr {
+  border-bottom: 1px solid lightslategrey;
+}
+.table_body tr:last-child {
+  border-bottom: none;
+}
+.table_body td {
+  padding: 10px 5px;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  vertical-align: middle;
+  border: 1px solid lightgray;
+  color: midnightblue;
+}
+.table_body td strong {
+  font-size: 0.92rem;
+  display: block;
+  margin-bottom: 2px;
+}
+.day {
+  font-size: 4rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.monday {
+  background-color: limegreen;
+}
+.tuesday {
+  background-color: royalblue;
+}
+.friday {
+  background-color: mediumpurple;
+}
+.saturday {
+  background: darkorange;
+}
+
+.CL {
+  background-color: rgb(233, 250, 253);
+}
+.soa {
+  background-color: lightyellow;
+}
+.ASE {
+  background-color: mistyrose;
+}
+.CACD {
+  background-color: lavender;
+}
+.IAS {
+  background-color: thistle;
+}
+.DS {
+  background-color: rgb(213, 244, 205);
+}
+
+.L {
+  background-color: #e82d2d7c;
+  border-radius: 15px;
+  padding: 5px;
+}
+.P {
+  background-color: rgba(0, 153, 255, 0.42);
+  border-radius: 15px;
+  padding: 5px;
+}
+.T {
+  background-color: rgba(255, 255, 0, 0.496);
+  border-radius: 15px;
+  padding: 5px;
+}
+.S {
+  background-color: rgba(16, 208, 16, 0.409);
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.empty {
+  background-color: azure;
+}
+.table_body tr:hover td:not(.day) {
+  filter: brightness(1.2);
+}
+.note_box {
+  margin-top: 20px;
+  background: #f3d5cc;
+  border-radius: 8px;
+  padding: 5px 30px;
+  max-width: 700px;
+}
+
+.note_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: midnightblue;
+  margin-bottom: 8px;
+  letter-spacing: 5px;
+}
+.note_box ul{
+    list-style:disc inside;
+    padding-left:5px
+}
+.note_box li{
+    font-size:0.88rem;
+    color:darkslategray;
+    line-height:1.6;
+    margin-bottom: 0.5rem;
+    display:flex;
+    align-items: center;
+    gap:6px;
+}
+.note_box svg{
+    fill:brown;
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+.page_footer{
+    max-width:1200px;
+    margin:30px auto 0;
+    text-align: center;
+    padding-top:15px;
+    border-top:2px solid rgb(25, 112, 45)
+
+}
+.page_footer p {
+    font-size:0.85rem;
+    color:darkslateblue;
+    margin-bottom: 5px;
+}
+.page_footer h3{
+    font-weight:900;
+    color:midnightblue;
+    letter-spacing: 0.5px;
+}
+
+
+
+
+
+@media (max-width: 900px) {
+  .page_title {
+    font-size: 1.5rem;
+  }
+
+  .head_row th,
+  .table_body td {
+    font-size: 0.68rem;
+    padding: 6px 3px;
+  }
+
+  .table_body td strong {
+    font-size: 0.72rem;
+  }
+
+  .day {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 15px 8px;
+  }
+
+  .page_title {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .head_row th,
+  .table_body td {
+    font-size: 0.6rem;
+    padding: 5px 2px;
+  }
+
+  .table_body td strong {
+    font-size: 0.65rem;
+  }
+
+  .day {
+    font-size: 0.68rem;
+    letter-spacing: 0;
+  }
+}

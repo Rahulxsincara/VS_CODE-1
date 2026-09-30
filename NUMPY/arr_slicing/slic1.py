@@ -1,0 +1,10 @@
+import numpy as np
+arr=np.array([9,7,845,2,51,7,5,78,20])
+print(arr[2:6])
+print(arr[:5])
+print(arr[1:])
+print(arr[-5:])
+print(arr[-3:-1])
+##print(arr[start:end:no.of jumps])
+print(arr[1:7:2])
+print(arr[::2])

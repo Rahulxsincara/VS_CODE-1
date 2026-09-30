@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Timetable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .color-box {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+        
+        .lecture { background-color: #4cd7d0; }
+        .practical { background-color: #6aaeff; }
+        .seminar { background-color: #ffa34d; }
+        .tutorial { background-color: #ff7c7c; }
+        
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .timetable th, .timetable td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .timetable th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .time-header {
+            background-color: #34495e !important;
+        }
+        
+        .timetable td {
+            height: 80px;
+            vertical-align: top;
+        }
+        
+        .day-header {
+            background-color: #ecf0f1;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .course-card {
+            background: #4cd7d0;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: white;
+            text-align: left;
+        }
+        
+        .practical { background: #6aaeff; }
+        .seminar { background: #ffa34d; }
+        .tutorial { background: #ff7c7c; }
+        
+        .course-code {
+            font-weight: bold;
+            display: block;
+        }
+        
+        .room {
+            display: block;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+        
+        .free-period {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        @media (max-width: 992px) {
+            .timetable th, .timetable td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            .course-card {
+                padding: 5px;
+                font-size: 11px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .timetable {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Class Timetable</h1>
+            <div class="subtitle">2nd Year, Odd Semester</div>
+        </header>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="color-box lecture"></div>
+                <span>Lecture (L)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box practical"></div>
+                <span>Practical (P)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box seminar"></div>
+                <span>Seminar (S)</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box tutorial"></div>
+                <span>Tutorial (T)</span>
+            </div>
+        </div>
+        
+        <table class="timetable">
+            <thead>
+                <tr>
+                    <th>Day/Period</th>
+                    <th>9:00-9:50</th>
+                    <th>9:50-10:40</th>
+                    <th>10:40-11:30</th>
+                    <th>11:30-12:20</th>
+                    <th>12:20-1:10</th>
+                    <th>1:10-2:00</th>
+                    <th>2:00-2:50</th>
+                    <th>2:50-3:40</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="day-header">Monday</td>
+                    <td class="free-period">Free</td>
+                    <td class="free-period">Free</td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">CN (P)</span>
+                            <span class="room">R610</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">CN (P)</span>
+                            <span class="room">R610</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">FEDF (S)</span>
+                            <span class="room">C608</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">FEDF (S)</span>
+                            <span class="room">C608</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">OOP (L)</span>
+                            <span class="room">C207</span>
+                        </div>
+                    </td>
+                    <td class="free-period">Free</td>
+                </tr>
+                <tr>
+                    <td class="day-header">Tuesday</td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">OOP (L)</span>
+                            <span class="room">C624A</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">OOP (L)</span>
+                            <span class="room">C624A</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">AIML (L)</span>
+                            <span class="room">L309</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">AIML (L)</span>
+                            <span class="room">L309</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card tutorial">
+                            <span class="course-code">MOPT (T)</span>
+                            <span class="room">C208</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card tutorial">
+                            <span class="course-code">MOPT (T)</span>
+                            <span class="room">C208</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">CN (L)</span>
+                            <span class="room">M201</span>
+                        </div>
+                    </td>
+                    <td class="free-period">Free</td>
+                </tr>
+                <tr>
+                    <td class="day-header">Wednesday</td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">DBMS (P)</span>
+                            <span class="room">C506</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">DBMS (P)</span>
+                            <span class="room">C506</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">MOPT (L)</span>
+                            <span class="room">C609</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">MOPT (L)</span>
+                            <span class="room">C609</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">AIML (P)</span>
+                            <span class="room">C407</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">AIML (P)</span>
+                            <span class="room">C407</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">DBMS (L)</span>
+                            <span class="room">M127</span>
+                        </div>
+                    </td>
+                    <td class="free-period">Free</td>
+                </tr>
+                <tr>
+                    <td class="day-header">Thursday</td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">OOP (S)</span>
+                            <span class="room">L312</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">OOP (S)</span>
+                            <span class="room">L312</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">CN (L)</span>
+                            <span class="room">R301B</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">CN (L)</span>
+                            <span class="room">R301B</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">OOP (P)</span>
+                            <span class="room">R107B</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card practical">
+                            <span class="course-code">OOP (P)</span>
+                            <span class="room">R107B</span>
+                        </div>
+                    </td>
+                    <td class="free-period">Free</td>
+                    <td class="free-period">Free</td>
+                </tr>
+                <tr>
+                    <td class="day-header">Friday</td>
+                    <td class="free-period">Free</td>
+                    <td class="free-period">Free</td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">FEDF (S)</span>
+                            <span class="room">M203</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card seminar">
+                            <span class="course-code">FEDF (S)</span>
+                            <span class="room">M203</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">DBMS (L)</span>
+                            <span class="room">C123B</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">DBMS (L)</span>
+                            <span class="room">C123B</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="course-card lecture">
+                            <span class="course-code">AIML (L)</span>
+                            <span class="room">C007</span>
+                        </div>
+                    </td>
+                    <td class="free-period">Free</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Simple script to highlight the current day
+        document.addEventListener('DOMContentLoaded', function() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const today = new Date().getDay();
+            
+            if (today > 0 && today < 6) { // Monday to Friday
+                const dayHeaders = document.querySelectorAll('.day-header');
+                dayHeaders[today - 1].style.backgroundColor = '#3498db';
+                dayHeaders[today - 1].style.color = 'white';
+            }
+        });
+    </script>
+</body>
+</html>

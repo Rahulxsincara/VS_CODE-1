@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Master - Professional Typing Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-keyboard"></i>
+                <h1>Typing Master</h1>
+            </div>
+            <p>Professional Typing Speed Test & Accuracy Trainer</p>
+        </header>
+        
+        <div class="dashboard">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="timer">60</span>
+                    <span class="stat-label">Seconds</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="wpm">0</span>
+                    <span class="stat-label">WPM</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="accuracy">100</span>
+                    <span class="stat-label">Accuracy</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="cpm">0</span>
+                    <span class="stat-label">CPM</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-area">
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="time">Time Mode</button>
+                <button class="mode-btn" data-mode="words">Words Mode</button>
+                <button class="mode-btn" data-mode="quote">Quote Mode</button>
+            </div>
+            
+            <div class="settings-panel">
+                <div class="setting-group">
+                    <label for="time-select">Time:</label>
+                    <select id="time-select">
+                        <option value="15">15 seconds</option>
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>60 seconds</option>
+                        <option value="120">120 seconds</option>
+                        <option value="300">300 seconds</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="theme">Theme:</label>
+                    <select id="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="matrix">Matrix</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="text-display" id="textDisplay">
+                <!-- Sample text will be inserted here by JavaScript -->
+            </div>
+            
+            <textarea id="textInput" placeholder="Start typing here when you're ready..." autofocus></textarea>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressPosition">0</span>/<span id="totalCharacters">0</span> characters
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="startBtn" class="btn-primary">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button id="resetBtn" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+                <button id="pauseBtn" class="btn-secondary" disabled>
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <h2><i class="fas fa-chart-line"></i> Test Results</h2>
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Words Per Minute</span>
+                        <span class="result-value" id="finalWpm">0</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Accuracy</span>
+                        <span class="result-value" id="finalAccuracy">0%</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Characters Per Minute</span>
+                        <span class="result-value" id="finalCpm">0</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Total Characters</span>
+                        <span class="result-value" id="totalCharsTyped">0</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Correct Characters</span>
+                        <span class="result-value" id="correctChars">0</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Incorrect Characters</span>
+                        <span class="result-value" id="incorrectChars">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="performance-rating">
+                <h3>Your Performance Rating</h3>
+                <div class="rating-bar">
+                    <div class="rating-fill" id="ratingFill"></div>
+                    <div class="rating-text" id="ratingText">Beginner</div>
+                </div>
+            </div>
+            
+            <button id="retryBtn" class="btn-primary">
+                <i class="fas fa-sync"></i> Try Again
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 Typing Master | Improve your typing skills with daily practice</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

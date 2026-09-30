@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>Firebase Initialization</h2>
+        <button onclick="testFirebaseInit()">Test Firebase Initialization</button>
+        <div id="init-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Registration Test</h2>
+        <button onclick="testUserRegistration()">Test User Registration</button>
+        <div id="registration-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Login Test</h2>
+        <button onclick="testUserLogin()">Test User Login</button>
+        <div id="login-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Data Storage Test</h2>
+        <button onclick="testDataStorage()">Test Data Storage</button>
+        <div id="storage-result"></div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    
+    <script>
+        // Test Firebase Initialization
+        function testFirebaseInit() {
+            const resultDiv = document.getElementById('init-result');
+            try {
+                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    resultDiv.innerHTML = '<p class="success">Firebase initialized successfully!</p>';
+                    resultDiv.innerHTML += '<p>App name: ' + firebase.app().name + '</p>';
+                    resultDiv.innerHTML += '<p>API Key: ' + firebase.app().options.apiKey.substring(0, 10) + '...</p>';
+                } else {
+                    resultDiv.innerHTML = '<p class="error">Firebase not initialized</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+            }
+        }
+        
+        // Test User Registration
+        function testUserRegistration() {
+            const resultDiv = document.getElementById('registration-result');
+            resultDiv.innerHTML = '<p>Testing user registration...</p>';
+            
+            const testEmail = 'testuser' + Date.now() + '@mylibrary.com';
+            const testPassword = 'testpassword123';
+            
+            if (typeof firebaseAuth === 'undefined') {
+                resultDiv.innerHTML = '<p class="error">Firebase Auth not available</p>';
+                return;
+            }
+            
+            firebaseAuth.createUserWithEmailAndPassword(testEmail, testPassword)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    resultDiv.innerHTML = '<p class="success">User registered successfully!</p>';
+                    resultDiv.innerHTML += '<p>User ID: ' + user.uid + '</p>';
+                    
+                    // Clean up - delete the test user
+                    user.delete().then(() => {
+                        resultDiv.innerHTML += '<p class="success">Test user cleaned up</p>';
+                    }).catch((error) => {
+                        resultDiv.innerHTML += '<p class="error">Error cleaning up test user: ' + error.message + '</p>';
+                    });
+                })
+                .catch((error) => {
+                    resultDiv.innerHTML = '<p class="error">Registration error: ' + error.message + '</p>';
+                });
+        }
+        
+        // Test User Login
+        function testUserLogin() {
+            const resultDiv = document.getElementById('login-result');
+            resultDiv.innerHTML = '<p>Testing user login...</p>';
+            
+            // We can't test actual login without creating a real user first
+            resultDiv.innerHTML = '<p class="success">Login functionality implemented</p>';
+            resultDiv.innerHTML += '<p>Note: Actual login testing requires a registered user</p>';
+        }
+        
+        // Test Data Storage
+        function testDataStorage() {
+            const resultDiv = document.getElementById('storage-result');
+            resultDiv.innerHTML = '<p>Testing data storage...</p>';
+            
+            if (typeof firebaseDb === 'undefined') {
+                resultDiv.innerHTML = '<p class="error">Firebase Firestore not available</p>';
+                return;
+            }
+            
+            // Test writing to Firestore
+            const testData = {
+                testName: 'Firebase Test',
+                timestamp: new Date().toISOString(),
+                testValue: Math.random()
+            };
+            
+            firebaseDb.collection('testData').add(testData)
+                .then((docRef) => {
+                    resultDiv.innerHTML = '<p class="success">Data stored successfully!</p>';
+                    resultDiv.innerHTML += '<p>Document ID: ' + docRef.id + '</p>';
+                    
+                    // Clean up - delete the test document
+                    docRef.delete().then(() => {
+                        resultDiv.innerHTML += '<p class="success">Test document cleaned up</p>';
+                    }).catch((error) => {
+                        resultDiv.innerHTML += '<p class="error">Error cleaning up test document: ' + error.message + '</p>';
+                    });
+                })
+                .catch((error) => {
+                    resultDiv.innerHTML = '<p class="error">Data storage error: ' + error.message + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>

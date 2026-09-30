@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Course Timetable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a0a0f;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #11111a;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #22222a;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 i {
+            color: #ff4444;
+        }
+
+        .subtitle {
+            color: #a5b1c2;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #11111a;
+            border-radius: 10px;
+            border: 1px solid #22222a;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: #1a1a22;
+        }
+
+        .lecture { color: #ff4444; }
+        .practical { color: #4488ff; }
+        .tutorial { color: #ffcc00; }
+        .skill { color: #44cc44; }
+        .athletic { color: #ffaa00; }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 24px;
+            text-align: center;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .lecture-badge { background-color: #ff4444; color: white; }
+        .practical-badge { background-color: #4488ff; color: white; }
+        .tutorial-badge { background-color: #ffcc00; color: #333; }
+        .skill-badge { background-color: #44cc44; color: white; }
+        .athletic-badge { background-color: #ffaa00; color: white; }
+
+        .timetable-container {
+            background: #11111a;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            border: 1px solid #22222a;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(to right, #22222a, #33333a);
+            color: white;
+        }
+
+        th {
+            padding: 15px 8px;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #33333a;
+        }
+
+        th:first-child {
+            width: 80px;
+        }
+
+        th:not(:first-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .time-slot {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            display: block;
+            margin-top: 5px;
+            color: #a5b1c2;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        td {
+            padding: 12px 8px;
+            text-align: center;
+            vertical-align: top;
+            height: 95px;
+            width: calc(100% / 10);
+            position: relative;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            background-color: #1a1a22;
+            color: #a5b1c2;
+            width: 80px;
+            font-size: 0.95rem;
+            border-right: 1px solid #22222a;
+        }
+
+        .day-header {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .empty-slot {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #7f8c8d;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .lunch-slot {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.15), rgba(255, 170, 0, 0.25));
+            color: #ffcc66;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            font-size: 0.85rem;
+        }
+
+        .course-card {
+            height: 100%;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid #ff4444;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #1a1a22;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            background: #22222a;
+        }
+
+        .course-code {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .course-title {
+            font-size: 0.8rem;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            flex-grow: 1;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .lecture-title { color: #ffaaaa; }
+        .practical-title { color: #aaccff; }
+        .tutorial-title { color: #ffee88; }
+        .skill-title { color: #aaffaa; }
+        .athletic-title { color: #ffdd99; }
+
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.75rem;
+        }
+
+        .room {
+            padding: 6px 12px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 900;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+            min-width: 55px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #ff6b6b, #ff4444);
+        }
+
+        /* Different room colors based on building/floor */
+        .room-c2 { background: linear-gradient(135deg, #4ecdc4, #2e9e96); border-color: rgba(78, 205, 196, 0.4); }
+        .room-c0 { background: linear-gradient(135deg, #ff9a9e, #ff6b6b); border-color: rgba(255, 154, 158, 0.4); }
+        .room-c5 { background: linear-gradient(135deg, #a18cd1, #7b68ee); border-color: rgba(161, 140, 209, 0.4); }
+        .room-c4 { background: linear-gradient(135deg, #ffecd2, #fcb69f); border-color: rgba(255, 236, 210, 0.4); color: #333; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); }
+        .room-c1 { background: linear-gradient(135deg, #84fab0, #2ecc71); border-color: rgba(132, 250, 176, 0.4); }
+        .room-c3 { background: linear-gradient(135deg, #d4fc79, #78e08f); border-color: rgba(212, 252, 121, 0.4); color: #333; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); }
+        .room-track { background: linear-gradient(135deg, #ffd89b, #f39c12); border-color: rgba(255, 216, 155, 0.4); }
+        .room-c211 { background: linear-gradient(135deg, #f093fb, #d63031); border-color: rgba(240, 147, 251, 0.4); }
+        .room-c017 { background: linear-gradient(135deg, #4facfe, #00b4d8); border-color: rgba(79, 172, 254, 0.4); }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            background: #22222a;
+            color: white;
+            border: 1px solid #33333a;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #ff4444, #ff6666);
+            border: 1px solid #ff5555;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #ff3333, #ff5555);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-secondary {
+            background: #22222a;
+            color: #dfe6e9;
+        }
+
+        .btn-secondary:hover {
+            background: #33333a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #a5b1c2;
+            font-size: 0.85rem;
+            padding: 15px;
+            background: #11111a;
+            border-radius: 12px;
+            border: 1px solid #22222a;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        /* Color-specific styles */
+        .lecture-box {
+            background: linear-gradient(145deg, #1a1a22, #22222a);
+            border-left: 5px solid #ff4444;
+            border-top: 1px solid rgba(255, 68, 68, 0.3);
+        }
+        
+        .practical-box {
+            background: linear-gradient(145deg, #1a1a22, #22222a);
+            border-left: 5px solid #4488ff;
+            border-top: 1px solid rgba(68, 136, 255, 0.3);
+        }
+        
+        .tutorial-box {
+            background: linear-gradient(145deg, #1a1a22, #22222a);
+            border-left: 5px solid #ffcc00;
+            border-top: 1px solid rgba(255, 204, 0, 0.3);
+        }
+        
+        .skill-box {
+            background: linear-gradient(145deg, #1a1a22, #22222a);
+            border-left: 5px solid #44cc44;
+            border-top: 1px solid rgba(68, 204, 68, 0.3);
+        }
+        
+        .athletic-box {
+            background: linear-gradient(145deg, #1a1a22, #22222a);
+            border-left: 5px solid #ffaa00;
+            border-top: 1px solid rgba(255, 170, 0, 0.3);
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: #11111a;
+                color: white;
+                padding: 0;
+            }
+            
+            .timetable-container {
+                box-shadow: none;
+                border: 1px solid #33333a;
+            }
+            
+            .btn, footer {
+                display: none;
+            }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 1400px) {
+            .container {
+                max-width: 95%;
+            }
+            
+            table {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            td {
+                height: 90px;
+                padding: 10px 6px;
+            }
+            
+            .course-card {
+                padding: 10px;
+            }
+            
+            .room {
+                font-size: 0.85rem;
+                padding: 5px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .legend {
+                gap: 8px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                justify-content: center;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            /* For very small screens, enable horizontal scroll */
+            .timetable-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 900px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> Weekly Course Timetable</h1>
+            <p class="subtitle">Spring 2024 • Computer Science Department</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="badge lecture-badge">L</span>
+                    <span class="lecture">Lecture</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge practical-badge">P</span>
+                    <span class="practical">Practical</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge tutorial-badge">T</span>
+                    <span class="tutorial">Tutorial</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge skill-badge">S</span>
+                    <span class="skill">Skill/Seminar</span>
+                </div>
+                <div class="legend-item">
+                    <span class="badge athletic-badge">A</span>
+                    <span class="athletic">Athletics</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="timetable-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day / Time</th>
+                        <th>Slot 1 <span class="time-slot">8:30 - 9:20</span></th>
+                        <th>Slot 2 <span class="time-slot">9:20 - 10:10</span></th>
+                        <th>Slot 3 <span class="time-slot">10:10 - 11:00</span></th>
+                        <th>Slot 4 <span class="time-slot">11:10 - 12:00</span></th>
+                        <th>Slot 5 <span class="time-slot">12:00 - 12:50</span></th>
+                        <th>Slot 6 <span class="time-slot">1:00 - 1:50</span></th>
+                        <th>Slot 7 <span class="time-slot">1:50 - 2:40</span></th>
+                        <th>Slot 8 <span class="time-slot">2:40 - 3:30</span></th>
+                        <th>Slot 9 <span class="time-slot">3:30 - 4:20</span></th>
+                        <th>Slot 10 <span class="time-slot">4:20 - 5:10</span></th>
+                        <th>Slot 11 <span class="time-slot">5:10 - 6:00</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Monday -->
+                    <tr>
+                        <td class="day-header">Mon</td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2101</div>
+                                <div class="course-title practical-title">Operating Systems (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C219</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2101</div>
+                                <div class="course-title practical-title">Operating Systems (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C219</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2204</div>
+                                <div class="course-title practical-title">Cloud Infrastructure (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c0">C019</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2204</div>
+                                <div class="course-title practical-title">Cloud Infrastructure (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c0">C019</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2240</div>
+                                <div class="course-title practical-title">Advanced Topics (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c0">C019</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title lecture-title">Algorithms (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c2">C208</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SDCS02</div>
+                                <div class="course-title skill-title">Full Stack Dev (L)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c5">C511</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24CC3010</div>
+                                <div class="course-title skill-title">Core Course (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c3">C307</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24CC3010</div>
+                                <div class="course-title skill-title">Core Course (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c3">C307</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Tuesday -->
+                    <tr>
+                        <td class="day-header">Tue</td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2204</div>
+                                <div class="course-title lecture-title">Cloud Infrastructure (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L308</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2204</div>
+                                <div class="course-title lecture-title">Cloud Infrastructure (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L308</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2227F</div>
+                                <div class="course-title lecture-title">Data Analytics (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L302</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2227F</div>
+                                <div class="course-title lecture-title">Data Analytics (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L302</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2101</div>
+                                <div class="course-title lecture-title">Operating Systems (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c2">C210</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card athletic-box">
+                                <div class="course-code">24SP2101</div>
+                                <div class="course-title athletic-title">Athletics</div>
+                                <div class="course-details">
+                                    <span class="badge athletic-badge">A</span>
+                                    <span class="room room-track">Track</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card athletic-box">
+                                <div class="course-code">24SP2101</div>
+                                <div class="course-title athletic-title">Athletics</div>
+                                <div class="course-details">
+                                    <span class="badge athletic-badge">A</span>
+                                    <span class="room room-track">Track</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Wednesday -->
+                    <tr>
+                        <td class="day-header">Wed</td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SDCS02</div>
+                                <div class="course-title skill-title">Full Stack Dev (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c017">C017</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SDCS02</div>
+                                <div class="course-title skill-title">Full Stack Dev (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c017">C017</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card tutorial-box">
+                                <div class="course-code">24MT2019</div>
+                                <div class="course-title tutorial-title">Probability & Stats (T)</div>
+                                <div class="course-details">
+                                    <span class="badge tutorial-badge">T</span>
+                                    <span class="room room-c4">C421B1</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card tutorial-box">
+                                <div class="course-code">24MT2019</div>
+                                <div class="course-title tutorial-title">Probability & Stats (T)</div>
+                                <div class="course-details">
+                                    <span class="badge tutorial-badge">T</span>
+                                    <span class="room room-c4">C421B1</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title skill-title">Algorithms (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c3">C324A</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title skill-title">Algorithms (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c3">C324A</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SC2204</div>
+                                <div class="course-title skill-title">Cloud Infra (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c3">C324A</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Thursday -->
+                    <tr>
+                        <td class="day-header">Thu</td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title practical-title">Algorithms (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C217</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title practical-title">Algorithms (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C217</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2101</div>
+                                <div class="course-title lecture-title">Operating Systems (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c1">C107</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2101</div>
+                                <div class="course-title lecture-title">Operating Systems (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c1">C107</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SDCS02</div>
+                                <div class="course-title skill-title">Full Stack Dev (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c211">C211</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card skill-box">
+                                <div class="course-code">24SDCS02</div>
+                                <div class="course-title skill-title">Full Stack Dev (S)</div>
+                                <div class="course-details">
+                                    <span class="badge skill-badge">S</span>
+                                    <span class="room room-c211">C211</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                    </tr>
+                    
+                    <!-- Friday -->
+                    <tr>
+                        <td class="day-header">Fri</td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2227F</div>
+                                <div class="course-title practical-title">Data Analytics (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C217</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card practical-box">
+                                <div class="course-code">24CS2227F</div>
+                                <div class="course-title practical-title">Data Analytics (P)</div>
+                                <div class="course-details">
+                                    <span class="badge practical-badge">P</span>
+                                    <span class="room room-c2">C217</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24MT2019</div>
+                                <div class="course-title lecture-title">Probability & Stats (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L312</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24MT2019</div>
+                                <div class="course-title lecture-title">Probability & Stats (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">L312</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td><div class="empty-slot">Free</div></td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2204</div>
+                                <div class="course-title lecture-title">Cloud Infrastructure (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c5">C507</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title lecture-title">Algorithms (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c2">C208</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="course-card lecture-box">
+                                <div class="course-code">24CS2203</div>
+                                <div class="course-title lecture-title">Algorithms (L)</div>
+                                <div class="course-details">
+                                    <span class="badge lecture-badge">L</span>
+                                    <span class="room room-c2">C208</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="fas fa-print"></i> Print
+            </button>
+            <button class="btn btn-secondary" onclick="screenshotTimetable()">
+                <i class="fas fa-camera"></i> Screenshot
+            </button>
+        </div>
+
+        <footer>
+            <p>© 2024 University Timetable System | CS Department | Spring Semester</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-book" style="color: #ff7777;"></i>
+                    <span>Lectures: 13</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-flask" style="color: #77aaff;"></i>
+                    <span>Practicals: 10</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-chalkboard-teacher" style="color: #ffdd44;"></i>
+                    <span>Tutorials: 2</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-code" style="color: #77ee77;"></i>
+                    <span>Skills/Seminars: 9</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-running" style="color: #ffcc66;"></i>
+                    <span>Athletics: 2</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Simulate screenshot functionality
+        function screenshotTimetable() {
+            const timetable = document.querySelector('.timetable-container');
+            const controls = document.querySelector('.controls');
+            
+            // Store original styles
+            const originalTimetableBoxShadow = timetable.style.boxShadow;
+            const originalTimetableBorder = timetable.style.border;
+            
+            // Hide controls for cleaner screenshot
+            controls.style.display = 'none';
+            
+            // Enhance appearance for screenshot
+            timetable.style.boxShadow = '0 0 25px rgba(255, 68, 68, 0.4)';
+            timetable.style.border = '2px solid rgba(255, 68, 68, 0.6)';
+            
+            alert("Screenshot ready! Use Ctrl+Shift+S (Win/Linux) or Cmd+Shift+4 (Mac).");
+            
+            // Reset after a moment
+            setTimeout(() => {
+                timetable.style.boxShadow = originalTimetableBoxShadow;
+                timetable.style.border = originalTimetableBorder;
+                controls.style.display = 'flex';
+            }, 3000);
+        }
+        
+        // Add click effect to course cards
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const courseCode = this.querySelector('.course-code').textContent;
+                const courseTitle = this.querySelector('.course-title').textContent;
+                const room = this.querySelector('.room').textContent;
+                const badge = this.querySelector('.badge').textContent;
+                
+                // Get type based on badge
+                let type = '';
+                if (badge === 'L') type = 'Lecture';
+                else if (badge === 'P') type = 'Practical';
+                else if (badge === 'T') type = 'Tutorial';
+                else if (badge === 'S') type = 'Skill/Seminar';
+                else if (badge === 'A') type = 'Athletics';
+                
+                alert(`Course: ${courseCode}\nTitle: ${courseTitle}\nType: ${type}\nRoom: ${room}`);
+            });
+        });
+    </script>
+</body>
+</html>

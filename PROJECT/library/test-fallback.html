@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fallback System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .info {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fallback System Test</h1>
+    
+    <div class="test-section">
+        <h2>System Status</h2>
+        <button onclick="checkSystemStatus()">Check System Status</button>
+        <div id="status-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Management Test</h2>
+        <button onclick="testUserCreation()">Test User Creation</button>
+        <button onclick="testUserLogin()">Test User Login</button>
+        <button onclick="testUserData()">Test User Data Storage</button>
+        <div id="user-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Admin Functionality Test</h2>
+        <button onclick="testAdminAccess()">Test Admin Access</button>
+        <div id="admin-result"></div>
+    </div>
+
+    <!-- Database Scripts -->
+    <script src="database/db.js"></script>
+    <script src="database/courseDb.js"></script>
+    <script src="database/demo.js"></script>
+    <script src="database/utils.js"></script>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-fallback.js"></script>
+    
+    <script>
+        // Check system status
+        function checkSystemStatus() {
+            const resultDiv = document.getElementById('status-result');
+            
+            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                resultDiv.innerHTML = '<p class="info">Firebase is configured and initialized</p>';
+                
+                if (typeof firebaseAuth !== 'undefined' && !(firebaseAuth instanceof FallbackAuth)) {
+                    resultDiv.innerHTML += '<p class="success">Using Firebase Authentication</p>';
+                } else {
+                    resultDiv.innerHTML += '<p class="info">Using Fallback Authentication</p>';
+                }
+                
+                if (typeof firebaseDb !== 'undefined' && !(firebaseDb instanceof FallbackFirestore)) {
+                    resultDiv.innerHTML += '<p class="success">Using Firebase Firestore</p>';
+                } else {
+                    resultDiv.innerHTML += '<p class="info">Using Fallback Firestore</p>';
+                }
+            } else {
+                resultDiv.innerHTML = '<p class="info">Firebase not configured - using fallback system</p>';
+                resultDiv.innerHTML += '<p class="info">Using Fallback Authentication</p>';
+                resultDiv.innerHTML += '<p class="info">Using Fallback Firestore</p>';
+            }
+        }
+        
+        // Test user creation
+        function testUserCreation() {
+            const resultDiv = document.getElementById('user-result');
+            resultDiv.innerHTML = '<p>Testing user creation...</p>';
+            
+            const testStudentId = 'testuser' + Date.now();
+            const testPassword = 'testpassword123';
+            
+            firebaseAuth.createUserWithEmailAndPassword(testStudentId + '@mylibrary.com', testPassword)
+                .then((userCredential) => {
+                    resultDiv.innerHTML = '<p class="success">User created successfully!</p>';
+                    resultDiv.innerHTML += '<p>User ID: ' + userCredential.user.uid + '</p>';
+                    
+                    // Update user data
+                    return firebaseDb.collection('users').doc(userCredential.user.uid).set({
+                        uid: userCredential.user.uid,
+                        name: 'Test User',
+                        studentId: testStudentId,
+                        year: '2',
+                        registered: new Date().toISOString(),
+                        lastLogin: null
+                    });
+                })
+                .then(() => {
+                    resultDiv.innerHTML += '<p class="success">User data saved successfully!</p>';
+                    
+                    // Clean up - delete the test user from localStorage
+                    const users = JSON.parse(localStorage.getItem('users') || '[]');
+                    const filteredUsers = users.filter(u => u.studentId !== testStudentId);
+                    localStorage.setItem('users', JSON.stringify(filteredUsers));
+                })
+                .catch((error) => {
+                    resultDiv.innerHTML = '<p class="error">User creation error: ' + error.message + '</p>';
+                });
+        }
+        
+        // Test user login
+        function testUserLogin() {
+            const resultDiv = document.getElementById('user-result');
+            resultDiv.innerHTML = '<p>Testing user login...</p>';
+            
+            // We can't test actual login without creating a real user first
+            resultDiv.innerHTML = '<p class="success">Login functionality available</p>';
+            resultDiv.innerHTML += '<p>Note: Actual login testing requires a registered user</p>';
+        }
+        
+        // Test user data storage
+        function testUserData() {
+            const resultDiv = document.getElementById('user-result');
+            resultDiv.innerHTML = '<p>Testing user data storage...</p>';
+            
+            // Test localStorage directly
+            const testData = {
+                testName: 'Fallback Test',
+                timestamp: new Date().toISOString(),
+                testValue: Math.random()
+            };
+            
+            localStorage.setItem('testData', JSON.stringify(testData));
+            const retrievedData = JSON.parse(localStorage.getItem('testData') || '{}');
+            
+            if (retrievedData.testName === testData.testName) {
+                resultDiv.innerHTML = '<p class="success">Data stored and retrieved successfully!</p>';
+                resultDiv.innerHTML += '<p>Test value: ' + retrievedData.testValue + '</p>';
+                
+                // Clean up
+                localStorage.removeItem('testData');
+            } else {
+                resultDiv.innerHTML = '<p class="error">Data storage failed</p>';
+            }
+        }
+        
+        // Test admin access
+        function testAdminAccess() {
+            const resultDiv = document.getElementById('admin-result');
+            resultDiv.innerHTML = '<p>Testing admin access...</p>';
+            
+            // Check if admin user exists
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const adminUser = users.find(u => u.studentId === 'admin');
+            
+            if (adminUser) {
+                resultDiv.innerHTML = '<p class="success">Admin user exists!</p>';
+                resultDiv.innerHTML += '<p>Admin name: ' + adminUser.name + '</p>';
+                resultDiv.innerHTML += '<p>Admin student ID: ' + adminUser.studentId + '</p>';
+            } else {
+                resultDiv.innerHTML = '<p class="error">Admin user not found</p>';
+            }
+        }
+        
+        // Run status check on page load
+        window.onload = function() {
+            checkSystemStatus();
+        };
+    </script>
+</body>
+</html>

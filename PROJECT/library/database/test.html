@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Database Test Page</h1>
+        <p>This page tests the SQL-like database implementation.</p>
+        
+        <div class="test-section">
+            <h2>Database Operations</h2>
+            <button onclick="initDatabase()">Initialize Database</button>
+            <button onclick="showAllCourses()">Show All Courses</button>
+            <button onclick="showYear1Sem1()">Show Year 1 Sem 1 Courses</button>
+            <button onclick="showYear2Sem2()">Show Year 2 Sem 2 Courses</button>
+            <button onclick="addTestStudent()">Add Test Student</button>
+            <button onclick="showStudents()">Show Students</button>
+            <button onclick="clearOutput()">Clear Output</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Search Courses</h2>
+            <input type="text" id="searchInput" placeholder="Enter course name or code">
+            <button onclick="searchCourses()">Search</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Output</h2>
+            <div id="output" class="output">Click buttons above to see results...</div>
+        </div>
+    </div>
+
+    <!-- Database Scripts -->
+    <script src="db.js"></script>
+    <script src="courseDb.js"></script>
+    <script src="demo.js"></script>
+    <script src="utils.js"></script>
+    <script src="testDb.js"></script>
+    
+    <script>
+        // Display output in the UI
+        function displayOutput(content) {
+            document.getElementById('output').textContent = JSON.stringify(content, null, 2);
+        }
+        
+        // Clear output
+        function clearOutput() {
+            document.getElementById('output').textContent = '';
+        }
+        
+        // Initialize database
+        function initDatabase() {
+            try {
+                CourseDatabase.init();
+                displayOutput("Database initialized successfully!");
+            } catch (error) {
+                displayOutput("Error initializing database: " + error.message);
+            }
+        }
+        
+        // Show all courses
+        function showAllCourses() {
+            try {
+                const courses = CourseDatabase.getAllCourses();
+                displayOutput(courses);
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Show Year 1 Semester 1 courses
+        function showYear1Sem1() {
+            try {
+                const courses = CourseDatabase.getCoursesByYearAndSemester(1, 1);
+                displayOutput(courses);
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Show Year 2 Semester 2 courses
+        function showYear2Sem2() {
+            try {
+                const courses = CourseDatabase.getCoursesByYearAndSemester(2, 2);
+                displayOutput(courses);
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Add test student
+        function addTestStudent() {
+            try {
+                const student = CourseDatabase.addStudent({
+                    studentId: 'TEST001',
+                    name: 'Test Student',
+                    academicYear: 2
+                });
+                displayOutput("Added student: " + JSON.stringify(student, null, 2));
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Show students
+        function showStudents() {
+            try {
+                // Since we don't have a direct method to get all students,
+                // we'll demonstrate how to use the database manager directly
+                const db = new DatabaseManager('courseLibrary');
+                const students = db.select('students');
+                displayOutput(students);
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Search courses
+        function searchCourses() {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (!searchTerm) {
+                displayOutput("Please enter a search term");
+                return;
+            }
+            
+            try {
+                const allCourses = CourseDatabase.getAllCourses();
+                const term = searchTerm.toLowerCase();
+                
+                const results = allCourses.filter(course => 
+                    course.name.toLowerCase().includes(term) || 
+                    course.code.toLowerCase().includes(term)
+                );
+                
+                displayOutput(results);
+            } catch (error) {
+                displayOutput("Error: " + error.message);
+            }
+        }
+        
+        // Initialize database on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initDatabase();
+        });
+    </script>
+</body>
+</html>

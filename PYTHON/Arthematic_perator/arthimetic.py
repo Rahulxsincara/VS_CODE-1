@@ -1,0 +1,10 @@
+a=1000
+b=500
+print(a+b)
+print(a-b)
+print(a*b)
+print(a/b)
+print(a%b)
+print(120+103)
+print(12*2)
+print

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ER Model - Educational Resource Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #1abc9c;
+      --accent1: #3498db;
+      --accent2: #e67e22;
+      --accent3: #27ae60;
+      --accent4: #9b59b6;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .description {
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .er-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .er-entity {
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      width: 300px;
+      overflow: hidden;
+    }
+    
+    .er-header {
+      padding: 15px;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .er-body {
+      padding: 15px;
+    }
+    
+    .er-attribute {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .er-attribute:last-child {
+      border-bottom: none;
+    }
+    
+    .pk {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    
+    .fk {
+      color: #3498db;
+      font-weight: bold;
+    }
+    
+    .relationships {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+    
+    .relationship {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-left: 4px solid var(--secondary);
+      background: #f9f9f9;
+    }
+    
+    .screenshot-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 25px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    
+    .screenshot-btn:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .entity-resource { background: var(--accent1); }
+    .entity-user { background: var(--accent2); }
+    .entity-category { background: var(--accent3); }
+    .entity-download { background: var(--accent4); }
+    
+    @media (max-width: 768px) {
+      .er-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .er-entity {
+        width: 100%;
+        max-width: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-database"></i> ER Model Diagram</h1>
+      <p>Educational Resource Library Database Structure</p>
+    </header>
+    
+    <p class="description">
+      This Entity-Relationship model illustrates the database structure for the Educational Resource Library system.
+      It shows the main entities and their relationships.
+    </p>
+    
+    <div class="er-container">
+      <div class="er-entity">
+        <div class="er-header entity-resource">
+          <span>RESOURCE</span>
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="er-body">
+          <div class="er-attribute"><span class="pk">resource_id</span> <span>INT PK</span></div>
+          <div class="er-attribute"><span>title</span> <span>VARCHAR(255)</span></div>
+          <div class="er-attribute"><span>description</span> <span>TEXT</span></div>
+          <div class="er-attribute"><span>author</span> <span>VARCHAR(100)</span></div>
+          <div class="er-attribute"><span>file_url</span> <span>VARCHAR(500)</span></div>
+          <div class="er-attribute"><span>file_size</span> <span>INT</span></div>
+          <div class="er-attribute"><span>download_count</span> <span>INT</span></div>
+          <div class="er-attribute"><span class="fk">category_id</span> <span>INT FK</span></div>
+          <div class="er-attribute"><span class="fk">uploaded_by</span> <span>INT FK</span></div>
+          <div class="er-attribute"><span>created_at</span> <span>TIMESTAMP</span></div>
+        </div>
+      </div>
+      
+      <div class="er-entity">
+        <div class="er-header entity-user">
+          <span>USER</span>
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="er-body">
+          <div class="er-attribute"><span class="pk">user_id</span> <span>INT PK</span></div>
+          <div class="er-attribute"><span>username</span> <span>VARCHAR(50)</span></div>
+          <div class="er-attribute"><span>email</span> <span>VARCHAR(100)</span></div>
+          <div class="er-attribute"><span>password_hash</span> <span>VARCHAR(255)</span></div>
+          <div class="er-attribute"><span>role</span> <span>ENUM('admin','user')</span></div>
+          <div class="er-attribute"><span>created_at</span> <span>TIMESTAMP</span></div>
+        </div>
+      </div>
+      
+      <div class="er-entity">
+        <div class="er-header entity-category">
+          <span>CATEGORY</span>
+          <i class="fas fa-folder"></i>
+        </div>
+        <div class="er-body">
+          <div class="er-attribute"><span class="pk">category_id</span> <span>INT PK</span></div>
+          <div class="er-attribute"><span>name</span> <span>VARCHAR(100)</span></div>
+          <div class="er-attribute"><span>description</span> <span>TEXT</span></div>
+        </div>
+      </div>
+      
+      <div class="er-entity">
+        <div class="er-header entity-download">
+          <span>DOWNLOAD</span>
+          <i class="fas fa-download"></i>
+        </div>
+        <div class="er-body">
+          <div class="er-attribute"><span class="pk">download_id</span> <span>INT PK</span></div>
+          <div class="er-attribute"><span class="fk">user_id</span> <span>INT FK</span></div>
+          <div class="er-attribute"><span class="fk">resource_id</span> <span>INT FK</span></div>
+          <div class="er-attribute"><span>download_date</span> <span>TIMESTAMP</span></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="relationships">
+      <h2><i class="fas fa-project-diagram"></i> Relationships</h2>
+      
+      <div class="relationship">
+        <p><strong>USER - RESOURCE (1:N)</strong>: One user can upload many resources, but each resource is uploaded by one user.</p>
+      </div>
+      
+      <div class="relationship">
+        <p><strong>CATEGORY - RESOURCE (1:N)</strong>: One category can contain many resources, but each resource belongs to one category.</p>
+      </div>
+      
+      <div class="relationship">
+        <p><strong>USER - DOWNLOAD (1:N)</strong>: One user can download many resources, creating many download records.</p>
+      </div>
+      
+      <div class="relationship">
+        <p><strong>RESOURCE - DOWNLOAD (1:N)</strong>: One resource can be downloaded many times, creating many download records.</p>
+      </div>
+    </div>
+    
+    <button class="screenshot-btn" onclick="takeScreenshot()">
+      <i class="fas fa-camera"></i> Take Screenshot
+    </button>
+  </div>
+
+  <script>
+    function takeScreenshot() {
+      // In a real application, you would use a library like html2canvas
+      alert("In a real implementation, this would capture a screenshot of the ER diagram. For now, you can use your system's screenshot tool (e.g., Snipping Tool on Windows, Screenshot on Mac).");
+      
+      // Example of what real implementation would look like:
+      /*
+      html2canvas(document.body).then(function(canvas) {
+        const link = document.createElement('a');
+        link.download = 'er-diagram-screenshot.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+      */
+    }
+  </script>
+</body>
+</html>

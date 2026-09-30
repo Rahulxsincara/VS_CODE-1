@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, midnightblue, darkblue, navy);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.quiz-card {
+    background: midnightblue;
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid darkslateblue;
+}
+
+.header h1 {
+    color: lavender;
+    font-size: 1.5rem;
+}
+
+.score {
+    color: gold;
+    font-weight: 600;
+    font-size: 1rem;
+    background: darkslateblue;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: darkslateblue;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, mediumseagreen, lightseagreen);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+.question-number{
+    color:lightsteelblue;
+    font-size:0.85rem;
+    margin-bottom:10px;
+}
+.question-text{
+    color:white;
+    font-size:1.3rem;
+    font-weight:600;
+    margin-bottom:25px;
+    line-height:1.4;
+}
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.option-btn {
+    background: darkslateblue;
+    color: lavender;
+    border: 2px solid slateblue;
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-align: left;
+}
+.option-btn:hover{
+    background:slateblue;
+    border-color:mediumpurple;
+    transform:scale(1.01);
+}
+.option-btn:active{
+    transform: scale(0.97);
+}
+.option-btn.correct{
+    background:mediumseagreen;
+    border-color:lightseagreen;
+    color:white;
+}
+.option-btn.worng{
+    background:tomato;
+    border-color:crimson;
+    color:white;
+}
+.option-btn.disable{
+    cursor:not-allowed;
+    opacity:0.7;
+}
+.option-btn.disable:hover{
+    transform:none;
+    background:darkslateblue;
+    border-color:slateblue
+}
+.option-btn.correct.disable:hover{
+    background-color:mediumseagreen;
+    border-color:lightseagreen;
+}
+.option-btn.worng.disable:hover{
+    background:tomato;
+    border-color:crimson;
+}
+.next-btn{
+    width:100%;
+    padding:14px;
+    background:linear-gradient(135deg,mediumseagreen,lightseagreen);
+    color:white;
+    border:none;
+    border-radius:15px;
+    font-size:pointer;
+    transition:all 0.2s ease;
+    font-family:inherit;
+    cursor:pointer;
+}
+.next-btn:hover{
+    transform:scale(1.02);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.next-btn:active{
+    transform:scale(0.97);
+}
+.next-btn:disabled{
+    opacity:0.5;
+    cursor: not-allowed;
+    transform:none;
+}
+#resultArea{
+    text-align:center;
+    padding:20px 0;
+}
+.result-icon{
+    font-size:4rem;
+    margin-bottom:10px;
+}
+.result-title{
+    color:white;
+    font-size:2rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+.result-score{
+    color:gold;
+    font-size:1.3rem;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.result-message{
+    color:lightsteelblue;
+    font-size:1rem;
+    margin-bottom:25rem;
+}
+.restart-btn{
+    padding:14px 40px;
+    background: linear-gradient(135deg,mediumpurple,lightsteelblue);
+    color:gold;
+    -webkit-text-stroke: 0.4px green;
+    border:none;
+    border-radius:15px;
+    font-size:1.1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+.restart-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.restart-btn:active{
+    transform: scale(0.97);
+}

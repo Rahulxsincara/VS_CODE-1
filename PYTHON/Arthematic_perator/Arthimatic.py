@@ -1,0 +1,14 @@
+a=20
+b=10
+sum=(a+b)
+sub=(a-b)
+mul=(a*b)
+div=(a/b)
+modulo=(a%b)
+power=(a**2)
+print("sum=",sum)
+print("substraction=",sub)
+print("multiplication=",mul)
+print("division=",div)
+print("modulo=",modulo)
+print("square=",power)

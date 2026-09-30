@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Key Typing Practice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="custom-practice.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-keyboard"></i>
+                <h1>Custom Key Practice</h1>
+            </div>
+            <p>Focus on specific keys to improve your typing skills</p>
+        </header>
+        
+        <div class="practice-setup">
+            <h2>Create Your Custom Practice</h2>
+            
+            <div class="setup-section">
+                <h3>1. Select Practice Type</h3>
+                <div class="practice-type-selector">
+                    <button class="type-btn active" data-type="specific">Specific Keys</button>
+                    <button class="type-btn" data-type="common">Common Mistakes</button>
+                    <button class="type-btn" data-type="symbols">Symbols & Numbers</button>
+                </div>
+            </div>
+            
+            <div class="setup-section" id="specificKeysSection">
+                <h3>2. Choose Keys to Practice</h3>
+                <div class="key-selector">
+                    <div class="key-group">
+                        <h4>Letters</h4>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="a">A</button>
+                            <button class="key-option" data-key="b">B</button>
+                            <button class="key-option" data-key="c">C</button>
+                            <button class="key-option" data-key="d">D</button>
+                            <button class="key-option" data-key="e">E</button>
+                            <button class="key-option" data-key="f">F</button>
+                            <button class="key-option" data-key="g">G</button>
+                        </div>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="h">H</button>
+                            <button class="key-option" data-key="i">I</button>
+                            <button class="key-option" data-key="j">J</button>
+                            <button class="key-option" data-key="k">K</button>
+                            <button class="key-option" data-key="l">L</button>
+                            <button class="key-option" data-key="m">M</button>
+                            <button class="key-option" data-key="n">N</button>
+                        </div>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="o">O</button>
+                            <button class="key-option" data-key="p">P</button>
+                            <button class="key-option" data-key="q">Q</button>
+                            <button class="key-option" data-key="r">R</button>
+                            <button class="key-option" data-key="s">S</button>
+                            <button class="key-option" data-key="t">T</button>
+                            <button class="key-option" data-key="u">U</button>
+                        </div>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="v">V</button>
+                            <button class="key-option" data-key="w">W</button>
+                            <button class="key-option" data-key="x">X</button>
+                            <button class="key-option" data-key="y">Y</button>
+                            <button class="key-option" data-key="z">Z</button>
+                        </div>
+                    </div>
+                    
+                    <div class="key-group">
+                        <h4>Numbers</h4>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="0">0</button>
+                            <button class="key-option" data-key="1">1</button>
+                            <button class="key-option" data-key="2">2</button>
+                            <button class="key-option" data-key="3">3</button>
+                            <button class="key-option" data-key="4">4</button>
+                            <button class="key-option" data-key="5">5</button>
+                        </div>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="6">6</button>
+                            <button class="key-option" data-key="7">7</button>
+                            <button class="key-option" data-key="8">8</button>
+                            <button class="key-option" data-key="9">9</button>
+                        </div>
+                    </div>
+                    
+                    <div class="key-group">
+                        <h4>Symbols</h4>
+                        <div class="keys-row">
+                            <button class="key-option" data-key=".">.</button>
+                            <button class="key-option" data-key=",">,</button>
+                            <button class="key-option" data-key=";">;</button>
+                            <button class="key-option" data-key=":">:</button>
+                            <button class="key-option" data-key="?">?</button>
+                            <button class="key-option" data-key="!">!</button>
+                        </div>
+                        <div class="keys-row">
+                            <button class="key-option" data-key="@">@</button>
+                            <button class="key-option" data-key="#">#</button>
+                            <button class="key-option" data-key="$">$</button>
+                            <button class="key-option" data-key="%">%</button>
+                            <button class="key-option" data-key="^">^</button>
+                            <button class="key-option" data-key="&">&</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="selected-keys">
+                    <h4>Selected Keys:</h4>
+                    <div class="selected-keys-container" id="selectedKeysContainer">
+                        <span class="no-selection">No keys selected yet</span>
+                    </div>
+                    <button id="clearSelection" class="btn-secondary">Clear Selection</button>
+                </div>
+            </div>
+            
+            <div class="setup-section hidden" id="commonMistakesSection">
+                <h3>2. Common Mistake Patterns</h3>
+                <div class="pattern-selector">
+                    <button class="pattern-option" data-pattern="left-right">Left-Right Alternation (asdf jkl;)</button>
+                    <button class="pattern-option" data-pattern="ring-pinky">Ring-Pinky Finger Stretch</button>
+                    <button class="pattern-option" data-pattern="top-row">Top Row Challenge</button>
+                    <button class="pattern-option" data-pattern="bottom-row">Bottom Row Challenge</button>
+                </div>
+            </div>
+            
+            <div class="setup-section hidden" id="symbolsSection">
+                <h3>2. Symbol Groups</h3>
+                <div class="pattern-selector">
+                    <button class="pattern-option" data-pattern="brackets">Brackets: [] {} ()</button>
+                    <button class="pattern-option" data-pattern="quotes">Quotes: ' " `</button>
+                    <button class="pattern-option" data-pattern="math">Math Symbols: + - * / =</button>
+                    <button class="pattern-option" data-pattern="punctuation">Punctuation: .,;:!?-</button>
+                </div>
+            </div>
+            
+            <div class="setup-section">
+                <h3>3. Practice Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="practiceTime">Practice Time (seconds):</label>
+                        <input type="number" id="practiceTime" min="10" max="300" value="60">
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="textLength">Text Length:</label>
+                        <select id="textLength">
+                            <option value="short">Short (50 chars)</option>
+                            <option value="medium" selected>Medium (100 chars)</option>
+                            <option value="long">Long (200 chars)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="repeatKeys">Repeat Keys:</label>
+                        <select id="repeatKeys">
+                            <option value="normal">Normal</option>
+                            <option value="frequent" selected>Frequent</option>
+                            <option value="intensive">Intensive</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label for="difficulty">Difficulty:</label>
+                        <select id="difficulty">
+                            <option value="easy">Easy (Single keys)</option>
+                            <option value="medium" selected>Medium (2-3 keys)</option>
+                            <option value="hard">Hard (4+ keys)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="setup-actions">
+                <button id="startCustomPractice" class="btn-primary" disabled>
+                    <i class="fas fa-play"></i> Start Practice
+                </button>
+                <button id="loadPreset" class="btn-secondary">
+                    <i class="fas fa-folder-open"></i> Load Preset
+                </button>
+            </div>
+        </div>
+        
+        <div class="practice-area hidden" id="practiceArea">
+            <div class="practice-header">
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="timer">60</span>s
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span id="wpm">0</span> WPM
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="accuracy">100</span>%
+                    </div>
+                </div>
+                
+                <div class="practice-controls">
+                    <button id="pauseBtn" class="btn-secondary">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button id="resetBtn" class="btn-secondary">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-display" id="textDisplay">
+                <!-- Practice text will be generated here -->
+            </div>
+            
+            <textarea id="textInput" placeholder="Start typing here..." autofocus></textarea>
+            
+            <div class="key-highlight">
+                <h3>Focus Keys:</h3>
+                <div class="highlighted-keys" id="highlightedKeys">
+                    <!-- Selected keys will be displayed here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-area hidden" id="resultsArea">
+            <h2><i class="fas fa-chart-line"></i> Practice Results</h2>
+            
+            <div class="results-summary">
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Keys Practiced</span>
+                        <span class="result-value" id="practicedKeys">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Average WPM</span>
+                        <span class="result-value" id="avgWpm">0</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Accuracy</span>
+                        <span class="result-value" id="finalAccuracy">0%</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="result-info">
+                        <span class="result-label">Improvement</span>
+                        <span class="result-value" id="improvement">+0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="improvement-tips">
+                <h3><i class="fas fa-lightbulb"></i> Improvement Tips</h3>
+                <ul id="tipsList">
+                    <li>Keep practicing these keys daily for best results</li>
+                </ul>
+            </div>
+            
+            <div class="results-actions">
+                <button id="practiceAgain" class="btn-primary">
+                    <i class="fas fa-redo"></i> Practice Again
+                </button>
+                <button id="createNew" class="btn-secondary">
+                    <i class="fas fa-plus"></i> New Practice
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="custom-practice.js"></script>
+</body>
+</html>

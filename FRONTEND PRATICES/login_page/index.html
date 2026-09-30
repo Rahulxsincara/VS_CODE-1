@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🔐</span>
+            <span class="logo-text">MyApp</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-card">
+            <div class="card-head">
+                <h2 class="card-title">Welcome Back</h2>
+                <p class="card-subtitle">Sign in to continue</p>
+
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+
+                    <input type="text" id="username" name="username" placeholder="Enter your username"
+                        autocomplete="username" required>
+
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrap">
+                        <input type="text" id="password" name="password" placeholder="Enter your password"
+                            autocomplete="current-password" required>
+                        <button type="button" id="togglePw" class="toggle-pw" aria-label="show password">👁️</button>
+
+                    </div>
+                </div>
+                <div class="form-action">
+
+                    <button type="submit" id="loginBtn" class="login-btn">Log In</button>
+                </div>
+            </form>
+            <div class="message-box" id="messageBox">message box</div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <span class="copyright">© 2025 MyApp</span>
+        </div>
+        <div class="footer-right">
+            <a href="#" class="footer-link">Privacy</a>
+            <a href="#" class="footer-link">Term</a>
+            <a href="#" class="footer-link">Help</a>
+
+        </div>
+
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
