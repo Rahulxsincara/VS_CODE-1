@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightbox Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Lightbox Gallery</h1>
+    <p class="subhead">Click any image to open the lightbox.</p>
+
+    <ul class="gallery" id="gallery">
+        <li class="gallery-item"><img src="../IMAGES/download (1).jpg" alt="image 1"></li>
+        <li class="gallery-item"><img src="../IMAGES/zenitsu-agatsuma-3840x2160-17045.jpg" alt="image 2"></li>
+        <li class="gallery-item"><img src="../IMAGES/download (4).jpg" alt="image 3"></li>
+        <li class="gallery-item"><img src="../IMAGES/download (5).jpg" alt="image 4"></li>
+        <li class="gallery-item"><img src="../IMAGES/download (7).jpg" alt="image 5"></li>
+        <li class="gallery-item"><img src="../IMAGES/guts-amoled-5120x2880-18716.jpg" alt="image 6"></li>
+        <li class="gallery-item"><img src="../IMAGES/itachi-uchiha-red-3840x2160-25727.png" alt="image 7"></li>
+        <li class="gallery-item"><img src="../IMAGES/kame-house-dragon-3840x2160-25003.jpg" alt="image 8"></li>
+        <li class="gallery-item"><img src="../IMAGES/WIN_20260509_07_51_34_Pro.jpg" alt="image 9"></li>
+    </ul>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImage">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+            <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous">&#10094;</button>
+            <button class="lightbox-nav next" id="lightboxNext" aria-label="Next">&#10095;</button>
+            <div class="lightbox-counter" id="lightboxCounter"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Gallery with Thumbnails</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #1a1a1a;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: white;
+    }
+
+    .gallery-container {
+      width: 100%;
+      max-width: 900px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    /* --- Main Preview Area --- */
+    .main-preview {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Keeps the full image visible */
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Overlay Controls (mimicking the screenshot) */
+    .overlay-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .control-icon {
+      width: 24px;
+      height: 24px;
+      fill: white;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .control-icon:hover {
+      opacity: 1;
+    }
+
+    /* Time Indicator */
+    .time-indicator {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- Thumbnail Strip --- */
+    .thumbnail-strip {
+      display: flex;
+      gap: 4px;
+      background: #0a0a0a;
+      padding: 8px 12px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #444 #0a0a0a;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 3px;
+    }
+
+    .thumb-item {
+      position: relative;
+      flex: 0 0 120px;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-item:hover {
+      opacity: 0.8;
+    }
+
+    .thumb-item.active {
+      border-color: #ffffff;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    /* Green "GG" overlay thumbnail (like in the screenshot) */
+    .thumb-item.gg-thumb {
+      background: #1a7a4c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb-item.gg-thumb::after {
+      content: "GG";
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: -2px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery-container">
+    <!-- Main Preview -->
+    <div class="main-preview">
+      <img id="mainImage" src="https://picsum.photos/id/0/1200/800" alt="Main Preview">
+      
+      <!-- Overlay controls from the screenshot -->
+      <div class="overlay-controls">
+        <!-- Screenshot / Cast icon -->
+        <svg class="control-icon" viewBox="0 0 24 24">
+          <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
+          <path d="M12 14c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+        </svg>
+        <!-- Picture-in-Picture icon -->
+        <svg class="control-icon" viewBox="0 0 24 24">
+          <path d="M19 11h-8v6h8v-6zm4 8V4.98C23 3.88 22.1 3 21 3H3c-1.1 0-2 .88-2 1.98V19c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2zm-2 .02H3V4.97h18v14.05z"/>
+        </svg>
+      </div>
+
+      <!-- Time Indicator -->
+      <div class="time-indicator">0:03 / 0:08</div>
+    </div>
+
+    <!-- Thumbnail Strip -->
+    <div class="thumbnail-strip" id="thumbStrip">
+      
+      <!-- Green "GG" Thumbnail (Active by default in screenshot) -->
+      <div class="thumb-item gg-thumb active" data-src="https://picsum.photos/id/0/1200/800"></div>
+
+      <!-- Regular Image Thumbnails -->
+      <div class="thumb-item" data-src="https://picsum.photos/id/1015/1200/800">
+        <img src="https://picsum.photos/id/1015/200/112" alt="Mountain">
+      </div>
+      <div class="thumb-item" data-src="https://picsum.photos/id/1043/1200/800">
+        <img src="https://picsum.photos/id/1043/200/112" alt="Forest">
+      </div>
+      <div class="thumb-item" data-src="https://picsum.photos/id/1069/1200/800">
+        <img src="https://picsum.photos/id/1069/200/112" alt="City">
+      </div>
+      <div class="thumb-item" data-src="https://picsum.photos/id/1074/1200/800">
+        <img src="https://picsum.photos/id/1074/200/112" alt="Coast">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get all thumbnail items and the main image
+    const thumbnails = document.querySelectorAll('.thumb-item');
+    const mainImage = document.getElementById('mainImage');
+
+    // Function to update the main preview
+    function setActiveThumbnail(element) {
+      // Remove 'active' class from all thumbnails
+      thumbnails.forEach(t => t.classList.remove('active'));
+      
+      // Add 'active' class to the clicked thumbnail
+      element.classList.add('active');
+
+      // Get the high-res source from the data attribute
+      const newSrc = element.dataset.src;
+
+      // Fade out, swap image, fade in (smooth transition)
+      if (newSrc) {
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+          mainImage.src = newSrc;
+          mainImage.style.opacity = '1';
+        }, 150); // Half of the CSS transition duration
+      }
+    }
+
+    // Add click event listener to each thumbnail
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        setActiveThumbnail(this);
+      });
+    });
+
+    // Optional: Keyboard navigation (left/right arrows)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const activeIndex = Array.from(thumbnails).findIndex(t => t.classList.contains('active'));
+        if (activeIndex === -1) return;
+
+        let nextIndex;
+        if (e.key === 'ArrowRight') {
+          nextIndex = (activeIndex + 1) % thumbnails.length;
+        } else {
+          nextIndex = (activeIndex - 1 + thumbnails.length) % thumbnails.length;
+        }
+        setActiveThumbnail(thumbnails[nextIndex]);
+      }
+    });
+  </script>
+</body>
+</html>

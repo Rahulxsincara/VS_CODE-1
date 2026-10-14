@@ -1,0 +1,201 @@
+/* ========== GLOBAL RESET & BASE ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+    background: #2a3d7b;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========== FESTIVE BODY BACKGROUND ========== */
+.body-bg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 30%, #2e1b3c, #0f0c1a 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 220, 180, 0.03);
+    font-size: 22vw;
+    font-weight: 900;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    animation: bgPulse 8s infinite alternate ease-in-out;
+    text-indent: -9999px;
+}
+
+/* floating confetti / balloon effect */
+.body-bg::before,
+.body-bg::after {
+    content: "🎂 🎈 🎉 🎁 🥳";
+    position: absolute;
+    font-size: 2.8rem;
+    white-space: nowrap;
+    opacity: 0.2;
+    filter: blur(1px);
+    animation: floatWish 24s linear infinite;
+    pointer-events: none;
+    text-indent: 0;
+
+}
+
+.body-bg::before {
+    top: 10%;
+    left: -20%;
+    transform: rotate(8deg);
+    color: white
+}
+
+.body-bg::after {
+    bottom: 8%;
+    right: -20%;
+    transform: rotate(-6deg);
+    color: white;
+    animation-direction: reverse;
+    font-size: 5.6rem;
+    opacity: 0.15;
+
+}
+
+@keyframes floatWish {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateX(100px) rotate(20deg);
+    }
+
+    100% {
+        transform: translateX(-100px) rotate(-20deg);
+    }
+
+}
+
+@keyframes bgPulse {
+    0% {
+        opacity: 0.85;
+        background: radial-gradient(circle at 20% 30%, #2e1b3c, #0f0c1a 70%);
+
+    }
+
+    100% {
+        opacity: 1;
+        background: radial-gradient(circle at 80% 70%, #2e1b3c, #0f0c1a 70%);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    width: min(92%, 800px);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 215, 150, 0.25);
+    border-radius: 3.5rem;
+    padding: 2rem;
+    box-shadow: 0 30px 50px rgba(255, 215, 150, 0.25),
+        0 0 0 2px rgba(255, 200, 120, 0.1) inset;
+    transition: box-shadow 0.3s, transform 0.3s ease;
+    color: #fbe9d7;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    animation: cardGlow 6s infinite alternate;
+}
+
+.container::before {
+    content: "🎂";
+    position: absolute;
+    top: -18px;
+    left: 30px;
+    font-size: 4rem;
+    filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 1));
+    transform: rotate(-8deg);
+    opacity: 0.9;
+
+    transition: transform 0.6s ease,
+        top 0.6s ease,
+        left 0.6s ease;
+}
+
+.container:hover::before {
+    transform: scale(1.7) rotate(-20deg);
+    top: -55px;
+    left: 30px;
+}
+
+.container-data {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 0.8rem 1.5rem 0.8rem;
+    width: 100%;
+}
+
+
+
+.container-data::before {
+    content: "✨";
+    position: absolute;
+    bottom: -55px;
+    right: 15px;
+    font-size: 5rem;
+    opacity: 0.8;
+    filter: blur(0.5px);
+    transform: rotate(11deg);
+
+    transition: transform 0.6s ease,
+        right 0.6s ease;
+}
+
+.container-data:hover::before {
+    transform: scale(1.7) rotate(40deg);
+    bottom: -55px;
+    right: -15px;
+}
+
+.msg {
+    background: linear-gradient(145deg, #fff6e8, #ffe9d4);
+    color: #3d2b1a;
+    font-size: clamp(1.4rem, 6vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    border-radius: 3rem;
+    box-shadow:
+        0 20px 30px -10px rgba(0, 0, 0, 0.8),
+        0 0 0 2px #fff8ef,
+        0 0 0 6px #ffb882,
+        0 0 0 10px #ffdbb5;
+
+    width: 90%;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.4s;
+    letter-spacing: 0.5px;
+    word-break: break-word;
+    cursor: default;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
+    position: relative;
+    overflow: hidden;
+    animation: msgFloat 4s infinite alternate ease-in-out;
+}

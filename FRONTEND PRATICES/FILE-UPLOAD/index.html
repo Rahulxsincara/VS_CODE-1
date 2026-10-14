@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Upload (Real)</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body {
+      background: linear-gradient(145deg, #f6f9fc, #e9f1f8);
+      min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      margin: 0; padding: 1.5rem;
+    }
+    .card {
+      background: #fff; border-radius: 2rem; padding: 2.5rem 2rem;
+      max-width: 520px; width: 100%;
+      box-shadow: 0 25px 45px -12px rgba(0,20,40,.25);
+    }
+    h1 { margin: 0 0 .25rem; color: #0b2d4b; }
+    .sub { color: #4a5e73; margin-bottom: 2rem; }
+    #fileInput { display: none; }
+    .drop {
+      border: 2.5px dashed #b8d0e7; border-radius: 1.5rem;
+      padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+      margin-bottom: 1.5rem; transition: .25s;
+    }
+    .drop:hover, .drop.drag { border-color: #3d7eb6; background: #f4faff; }
+    .drop .icon { font-size: 3.5rem; }
+    .drop .txt { font-weight: 600; color: #1f3f5c; }
+    .drop .hint { font-size: .85rem; color: #6e8aa8; }
+    .info {
+      display: none; background: #e9f2fa; border-radius: 1rem;
+      padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+      justify-content: space-between; align-items: center; gap: 1rem;
+    }
+    .info.show { display: flex; }
+    .info .name { font-weight: 600; color: #0c2e4b; word-break: break-all; }
+    .info .size { font-size: .8rem; color: #4e6d8a; }
+    .clear {
+      background: #fff; border: 1px solid #bed6ea; border-radius: 50%;
+      width: 2.4rem; height: 2.4rem; font-size: 1.2rem; cursor: pointer;
+    }
+    button.up {
+      width: 100%; padding: 1rem; border: none; border-radius: 3rem;
+      background: #1e4f77; color: #fff; font-size: 1.1rem; font-weight: 600;
+      cursor: pointer; transition: .2s;
+    }
+    button.up:disabled { opacity: .5; cursor: not-allowed; }
+    button.up:hover:not(:disabled) { background: #0e3e60; }
+    .status {
+      margin-top: 1rem; padding: .75rem 1rem; border-radius: 2rem;
+      text-align: center; font-size: .9rem; display: none;
+    }
+    .status.show { display: block; }
+    .status.ok { background: #e2f3e6; color: #1d6b3e; }
+    .status.err { background: #ffe9ec; color: #b13e4b; }
+    .status a { color: inherit; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>📤 Real File Upload</h1>
+    <p class="sub">Files are saved to the server's <code>uploads/</code> folder.</p>
+
+    <input type="file" id="fileInput">
+
+    <div class="drop" id="drop">
+      <div class="icon">📂</div>
+      <div class="txt">Click or drag & drop</div>
+      <div class="hint">Max 10MB</div>
+    </div>
+
+    <div class="info" id="info">
+      <div>
+        <div class="name" id="fileName">—</div>
+        <div class="size" id="fileSize">—</div>
+      </div>
+      <button class="clear" id="clear">✕</button>
+    </div>
+
+    <button class="up" id="uploadBtn" disabled>⬆️ Upload</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const drop = document.getElementById('drop');
+    const info = document.getElementById('info');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const clearBtn = document.getElementById('clear');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const status = document.getElementById('status');
+
+    let selectedFile = null;
+
+    const fmtSize = (b) => {
+      if (!b) return '0 B';
+      const k = 1024, s = ['B','KB','MB','GB'];
+      const i = Math.floor(Math.log(b) / Math.log(k));
+      return (b / Math.pow(k, i)).toFixed(2) + ' ' + s[i];
+    };
+
+    function setStatus(msg, type) {
+      status.className = 'status show ' + (type === 'ok' ? 'ok' : 'err');
+      status.innerHTML = msg;
+    }
+
+    function clearStatus() {
+      status.className = 'status';
+      status.innerHTML = '';
+    }
+
+    function updateUI() {
+      if (selectedFile) {
+        info.classList.add('show');
+        fileName.textContent = selectedFile.name;
+        fileSize.textContent = fmtSize(selectedFile.size);
+        uploadBtn.disabled = false;
+      } else {
+        info.classList.remove('show');
+        uploadBtn.disabled = true;
+        fileInput.value = '';
+      }
+    }
+
+    function pickFile(file) {
+      clearStatus();
+      if (file.size > 10 * 1024 * 1024) {
+        setStatus('❌ File too large (max 10MB).', 'err');
+        selectedFile = null;
+        updateUI();
+        return;
+      }
+      selectedFile = file;
+      updateUI();
+    }
+
+    // Click drop zone
+    drop.addEventListener('click', () => fileInput.click());
+
+    // File input
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files[0]) pickFile(e.target.files[0]);
+    });
+
+    // Drag & drop
+    ['dragenter','dragover','dragleave','drop'].forEach(ev =>
+      drop.addEventListener(ev, e => e.preventDefault())
+    );
+    drop.addEventListener('dragenter', () => drop.classList.add('drag'));
+    drop.addEventListener('dragover', () => drop.classList.add('drag'));
+    drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+    drop.addEventListener('drop', (e) => {
+      drop.classList.remove('drag');
+      if (e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]);
+    });
+
+    // Clear
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectedFile = null;
+      updateUI();
+      clearStatus();
+    });
+
+    // Upload → send to backend
+    uploadBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      setStatus('⏳ Uploading...', 'ok');
+      uploadBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          setStatus(
+            `✅ Saved as <b>${data.file.savedName}</b> — 
+             <a href="${data.file.path}" target="_blank">view file</a>`,
+            'ok'
+          );
+          // Reset after successful upload
+          selectedFile = null;
+          updateUI();
+        } else {
+          setStatus('❌ ' + data.message, 'err');
+          uploadBtn.disabled = false;
+        }
+      } catch (err) {
+        setStatus('❌ Upload failed: ' + err.message, 'err');
+        uploadBtn.disabled = false;
+      }
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>

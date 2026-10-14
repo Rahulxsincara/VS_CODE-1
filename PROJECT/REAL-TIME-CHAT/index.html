@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimpleChat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app-wrapper">
+    <main class="chat-container">
+
+      <!-- Header -->
+      <header class="chat-header">
+        <div class="header-info">
+          <h1 class="app-name">SimpleChat</h1>
+          <p class="app-subtitle">Simple messaging, made easy</p>
+        </div>
+
+        <!-- Updated: Connection Status -->
+        <div class="status-badge" id="connectionStatus" aria-label="connection status">
+          Connecting...
+        </div>
+      </header>
+
+      <!-- User Information -->
+      <section class="user-area">
+        <div class="current-user">
+          <span class="user-avatar" aria-hidden="true">👤</span>
+          <span class="user-name" id="currentUsername">Connecting...</span>
+        </div>
+
+        <!-- Updated: Chat Status Note -->
+        <p class="demo-note" id="chatStatusNote" role="status">
+          Connecting to chat server...
+        </p>
+      </section>
+
+      <!-- Message Display -->
+      <section id="messageDisplay" class="message-display" aria-live="polite" aria-label="Chat messages">
+
+        <div class="empty-placeholder" id="emptyPlaceholder">
+          <span class="placeholder-icon">💬</span>
+          <p>No messages yet. Say hello!</p>
+        </div>
+
+      </section>
+
+      <!-- Message Input -->
+      <footer class="message-input-area">
+        <div class="input-row">
+
+          <textarea id="messageInput" class="message-input" placeholder="Type your message..." rows="1"
+            aria-label="Type your message"></textarea>
+
+          <button id="sendButton" class="send-button" type="button">
+            Send
+          </button>
+
+        </div>
+
+        <p class="input-hint">
+          Press <kbd>Enter</kbd> to send ·
+          <kbd>Shift</kbd>+<kbd>Enter</kbd> for new line
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- WebSocket Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+
+  <!-- Main JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

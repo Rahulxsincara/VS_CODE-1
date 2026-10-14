@@ -1,0 +1,6 @@
+helm lint my-web-app
+helm install my-web-app ./my-web-app
+kubectl get deployments
+kubectl get pods
+kubectl get services
+kubectl port-forward svc/my-web-app 8080:80

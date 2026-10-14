@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -20px;
+    background-image: url("../FRONTEND PRATICES/IMAGES/sally-lR96g3H5VmA-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(55px);
+    z-index: -1;
+}
+
+header {
+
+    background-color: rgba(84, 156, 143, 0.768);
+    color: rgb(252, 252, 252);
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0px 4px 4px 0px rgb(255, 254, 254);
+
+
+}
+
+h1 {
+    font-size: 4rem;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+
+}
+
+.options {
+    margin-bottom: 40px;
+}
+
+.options label {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.options input[type="range"],
+.options select,
+.options input[type="number"] {
+    width: 100%;
+    padding: 17px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 13px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+.options select {
+    appearance: none;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: lab(91.96% -52.48 81.87);
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.403);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.options button:hover {
+    background-color: rgb(128, 234, 128);
+    transform: scale(1.02);
+}
+
+.output {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid crimson;
+    min-height: 200px;
+    box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.403);
+}
+
+#include {
+    font-size: 22px;
+    font-weight: bold;
+}
